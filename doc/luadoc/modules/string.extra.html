@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
+	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+
+
+<h1>LuaDoc</h1>
+<ul>
+	
+	<li><a href="../index.html">Index</a></li>
+	
+</ul>
+
+
+<!-- Module list -->
+
+<h1>Modules</h1>
+<ul>
+
+	<li>
+		<a href="../modules/check.html">check</a>
+	</li>
+
+	<li>
+		<a href="../modules/dado.html">dado</a>
+	</li>
+
+	<li>
+		<a href="../modules/dado.object.html">dado.object</a>
+	</li>
+
+	<li>
+		<a href="../modules/dado.sql.html">dado.sql</a>
+	</li>
+
+	<li><strong>string.extra</strong></li>
+	
+	<li>
+		<a href="../modules/table.extra.html">table.extra</a>
+	</li>
+
+</ul>
+
+
+
+<!-- File list -->
+
+<h1>Files</h1>
+<ul>
+
+	<li>
+		<a href="../files/check.html">check.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/dado/init.html">dado/init.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/dado/object.html">dado/object.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/dado/sql.html">dado/sql.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/rm_check.html">rm_check.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/string.extra.html">string.extra.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/table.extra.html">table.extra.lua</a>
+	</li>
+
+</ul>
+
+
+
+
+
+
+</div><!-- id="navigation" -->
+
+<div id="content">
+
+<h1>Module <code>string.extra</code></h1>
+
+<p>String manipulation functions. </p>
+
+
+
+<p><small><b>Release:</b> $Id: string.extra.lua,v 1.2 2008/01/03 18:09:15 raphael Exp $ </small></p>
+
+
+
+<h2>Functions</h2>
+<table class="function_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#notempty">notempty</a>&nbsp;(s)</td>
+	<td class="summary">Removes leading, trailing and redundant spaces from a string and returns the result if it's not empty.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#rmsp">rmsp</a>&nbsp;(s)</td>
+	<td class="summary">Removes spaces from the beginning and from the end of a string.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#split">split</a>&nbsp;(s, f, sep)</td>
+	<td class="summary">Applies a function to the substrings of a given string.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#toarray">toarray</a>&nbsp;(s, sep, dest)</td>
+	<td class="summary">Splits a string into a table producing an array.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#torecord">torecord</a>&nbsp;(s, sep, dest)</td>
+	<td class="summary">Splits a string into a table producing a record.</td>
+	</tr>
+
+</table>
+
+
+
+
+
+
+<br/>
+<br/>
+
+
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="notempty"></a><strong>notempty</strong>&nbsp;(s)</dt>
+<dd>
+Removes leading, trailing and redundant spaces from a string and returns the result if it's not empty. nil is returned otherwise.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  s: String to be processed.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+String or nil, if it results in an empty string.
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="">
+		string.extra.rmsp 
+	</a>
+	
+</ul>
+
+</dd>
+
+
+
+
+<dt><a name="rmsp"></a><strong>rmsp</strong>&nbsp;(s)</dt>
+<dd>
+Removes spaces from the beginning and from the end of a string. Also removes space multiplicity (by substituting it by a single space).
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  s: String to be processed.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+String or nil if no string was given. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="split"></a><strong>split</strong>&nbsp;(s, f, sep)</dt>
+<dd>
+Applies a function to the substrings of a given string. It also takes care of separator inside quoted strings.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  s: String to be processed.
+	</li>
+	
+	<li>
+	  f: Function to process each substring.
+	</li>
+	
+	<li>
+	  sep: String with the separator character (default = ';'). 
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="toarray"></a><strong>toarray</strong>&nbsp;(s, sep, dest)</dt>
+<dd>
+Splits a string into a table producing an array.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  s: String to be processed.
+	</li>
+	
+	<li>
+	  sep: String with the separator character (optional).
+	</li>
+	
+	<li>
+	  dest: Table to receive the result (optional).
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Table representing a record. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="torecord"></a><strong>torecord</strong>&nbsp;(s, sep, dest)</dt>
+<dd>
+Splits a string into a table producing a record. The fields of the record are the strings; the values are its initial position in the original string.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  s: String to be processed.
+	</li>
+	
+	<li>
+	  sep: String with the separator character (optional).
+	</li>
+	
+	<li>
+	  dest: Table to receive the result (optional).
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Table representing a record. 
+
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->	
+</body>
+</html>

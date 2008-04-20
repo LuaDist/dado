@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../../luadoc.css" type="text/css" />
+	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+
+
+<h1>LuaDoc</h1>
+<ul>
+	
+	<li><a href="../../index.html">Index</a></li>
+	
+</ul>
+
+
+<!-- Module list -->
+
+<h1>Modules</h1>
+<ul>
+
+	<li>
+		<a href="../../modules/check.html">check</a>
+	</li>
+
+	<li>
+		<a href="../../modules/dado.html">dado</a>
+	</li>
+
+	<li>
+		<a href="../../modules/dado.object.html">dado.object</a>
+	</li>
+
+	<li>
+		<a href="../../modules/dado.sql.html">dado.sql</a>
+	</li>
+
+	<li>
+		<a href="../../modules/string.extra.html">string.extra</a>
+	</li>
+
+	<li>
+		<a href="../../modules/table.extra.html">table.extra</a>
+	</li>
+
+</ul>
+
+
+
+<!-- File list -->
+
+<h1>Files</h1>
+<ul>
+
+	<li>
+		<a href="../../files/check.html">check.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/dado/init.html">dado/init.lua</a>
+	</li>
+
+	<li><strong>dado/object.lua</strong></li>
+	
+	<li>
+		<a href="../../files/dado/sql.html">dado/sql.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/rm_check.html">rm_check.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/string.extra.html">string.extra.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/table.extra.html">table.extra.lua</a>
+	</li>
+
+</ul>
+
+
+
+
+
+
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h1>File <code>dado/object.lua</code></h1>
+
+
+<p>Database Object. Permits the association of the object with a database table. There are some special attributes: db_fields = table (record) that indicates which attributes should be loaded from the database table_name = string with the name of the database table key_name = string with the name of the key attribute/field </p>
+
+
+
+
+<p><small><b>Release:</b> $Id: object.lua,v 1.4 2008/04/09 03:16:15 tomas Exp $ </small></p>
+
+
+
+<h2>Functions</h2>
+<table class="function_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#class">class</a>&nbsp;(self, c)</td>
+	<td class="summary">Creates a new class.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#insert">insert</a>&nbsp;(self)</td>
+	<td class="summary">Inserts a new record in the database.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#new">new</a>&nbsp;(class, dado, o)</td>
+	<td class="summary">Creates a new object.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#save">save</a>&nbsp;(self)</td>
+	<td class="summary">Saves the object data.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#update">update</a>&nbsp;(self)</td>
+	<td class="summary">Updates the data of the object in the corresponding database record.</td>
+	</tr>
+
+</table>
+
+
+
+
+
+
+<br/>
+<br/>
+
+
+
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="class"></a><strong>class</strong>&nbsp;(self, c)</dt>
+<dd>
+Creates a new class.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  self: 
+	</li>
+	
+	<li>
+	  c: Table with the mandatory fields.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Table representing the class. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="insert"></a><strong>insert</strong>&nbsp;(self)</dt>
+<dd>
+Inserts a new record in the database.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  self: 
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Boolean indicating the success of the operation. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="new"></a><strong>new</strong>&nbsp;(class, dado, o)</dt>
+<dd>
+Creates a new object.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  class: Table representing the class of the object.
+	</li>
+	
+	<li>
+	  dado: Dado connection.
+	</li>
+	
+	<li>
+	  o: Table representing the object (optional).
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Table representing the object. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="save"></a><strong>save</strong>&nbsp;(self)</dt>
+<dd>
+Saves the object data. This function decides when to perform an update or an insert according to the value of the loaded attribute which indicates if the data was already loaded from the database. 
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  self: 
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="update"></a><strong>update</strong>&nbsp;(self)</dt>
+<dd>
+Updates the data of the object in the corresponding database record.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  self: 
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Boolean indicating the success of the operation. 
+
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->	
+</body>
+</html>

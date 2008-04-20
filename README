@@ -1,0 +1,61 @@
+Contents
+========
+
+This package contains:
+
+src/string.extra.lua  Extension to string package
+src/table.extra.lua   Extension to table package
+
+src/check.lua         General validation library
+src/rm_check.lua      Utility to remove occurrences of check package in scripts
+src/dado/sql.lua      SQL statements composing library
+src/dado/init.lua     Database facilities library
+src/dado/object.lua   Object abstraction
+
+tests/overall.lua        Runs all tests
+tests/tdado.lua          Database facilities tests
+tests/tdbobj.lua         Object abstraction tests
+tests/tsql.lua           SQL composing tests
+tests/tstring.extra.lua  String extension tests
+tests/ttable.extra.lua   Table extension tests
+
+Makefile          Utility to install, generate documentation and pack distribution
+
+Libraries descriptions
+========= ============
+
+string.extra.lua
+
+Some string manipulation functions used by the other libraries.
+
+table.extra.lua
+
+Some table manipulation functions used by the other libraries.
+
+check.lua
+
+The general validation library provides a small set of functions which
+reproduce in part the luaL_check* and luaL_opt* functions of Lua's auxiliary
+library.  Because the use of these functions could cause a great penalty on
+the overall performance, we also provide the script rm_check.lua which
+removes any occurrence of check's functions in the given files.
+
+dado/sql.lua
+
+The SQL statements composing library offers a collection of functions which
+helps the creation of the most commonly used database operations.
+
+dado/init.lua
+
+Dado is a set of facilities implemented over LuaSQL connection objects.
+It provides an iterator for selects, connection cache,
+better database error messages and a uniform use for both insert and update.
+
+dado/object.lua
+
+The Object library offers basic functionality to create objects
+associated with database rows.  These objects use a mechanism to retrieve
+attributes automatically from the database.  The library also offers a class
+constructor function to ease the creation of classes of database objects.
+
+$Id: README,v 1.5 2008/04/20 21:27:42 tomas Exp $

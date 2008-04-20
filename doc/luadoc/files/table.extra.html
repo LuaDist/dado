@@ -1,0 +1,401 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
+	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+
+
+<h1>LuaDoc</h1>
+<ul>
+	
+	<li><a href="../index.html">Index</a></li>
+	
+</ul>
+
+
+<!-- Module list -->
+
+<h1>Modules</h1>
+<ul>
+
+	<li>
+		<a href="../modules/check.html">check</a>
+	</li>
+
+	<li>
+		<a href="../modules/dado.html">dado</a>
+	</li>
+
+	<li>
+		<a href="../modules/dado.object.html">dado.object</a>
+	</li>
+
+	<li>
+		<a href="../modules/dado.sql.html">dado.sql</a>
+	</li>
+
+	<li>
+		<a href="../modules/string.extra.html">string.extra</a>
+	</li>
+
+	<li>
+		<a href="../modules/table.extra.html">table.extra</a>
+	</li>
+
+</ul>
+
+
+
+<!-- File list -->
+
+<h1>Files</h1>
+<ul>
+
+	<li>
+		<a href="../files/check.html">check.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/dado/init.html">dado/init.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/dado/object.html">dado/object.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/dado/sql.html">dado/sql.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/rm_check.html">rm_check.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/string.extra.html">string.extra.lua</a>
+	</li>
+
+	<li><strong>table.extra.lua</strong></li>
+	
+</ul>
+
+
+
+
+
+
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h1>File <code>table.extra.lua</code></h1>
+
+
+<p>Table manipulation and transformation functions. </p>
+
+
+
+
+<p><small><b>Release:</b> $Id: table.extra.lua,v 1.2 2007/07/04 19:56:00 tomas Exp $ </small></p>
+
+
+
+<h2>Functions</h2>
+<table class="function_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#arraytorecord">arraytorecord</a>&nbsp;(tab, dest)</td>
+	<td class="summary">Obtains a record from the elements of an array.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#copyto">copyto</a>&nbsp;(tab, dest)</td>
+	<td class="summary">Copies values from one table to another (or a new one).</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#cycle">cycle</a>&nbsp;(tab, n)</td>
+	<td class="summary">Cyclic iterator over the arguments.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#fullconcat">fullconcat</a>&nbsp;(tab, kvsep, pairssep, kfilter, vfilter)</td>
+	<td class="summary">Builds a list of pairs field=value, separated by commas.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#invert">invert</a>&nbsp;(tab)</td>
+	<td class="summary">Inverts the array part of a given table.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#twostr">twostr</a>&nbsp;(tab, ksep, vsep, kfilter, vfilter)</td>
+	<td class="summary">Builds two lists, of keys and of values.</td>
+	</tr>
+
+</table>
+
+
+
+
+
+
+<br/>
+<br/>
+
+
+
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="arraytorecord"></a><strong>arraytorecord</strong>&nbsp;(tab, dest)</dt>
+<dd>
+Obtains a record from the elements of an array.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  tab: Table representing the array.
+	</li>
+	
+	<li>
+	  dest: Table to receive the result (optional).
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Table representing a record. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="copyto"></a><strong>copyto</strong>&nbsp;(tab, dest)</dt>
+<dd>
+Copies values from one table to another (or a new one). The values could overwrite pre-existing ones.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  tab: Table with the values.
+	</li>
+	
+	<li>
+	  dest: Table where to store the values (default = {}).
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Table with the results (a new table, if none provided). 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="cycle"></a><strong>cycle</strong>&nbsp;(tab, n)</dt>
+<dd>
+Cyclic iterator over the arguments. When reaching the end, it starts again over and over.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  tab: Table of elements to be traversed.
+	</li>
+	
+	<li>
+	  n: Number of arguments of tab (default = #tab).
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Function which return the next element.
+
+
+
+</dd>
+
+
+
+
+<dt><a name="fullconcat"></a><strong>fullconcat</strong>&nbsp;(tab, kvsep, pairssep, kfilter, vfilter)</dt>
+<dd>
+Builds a list of pairs field=value, separated by commas. The '=' sign could be changed by the kvsep argument. The ',' could also be changed by the pairssep argument. Both the field and the value could be filtered by the kfilter and vfilter respectivelly.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  tab: Table of field=value pairs.
+	</li>
+	
+	<li>
+	  kvsep: String with key-value separator (default = '=').
+	</li>
+	
+	<li>
+	  pairssep: String with pairs separator (default = ',').
+	</li>
+	
+	<li>
+	  kfilter: Function to filter the keys (optional).
+	</li>
+	
+	<li>
+	  vfilter: Function to filter the values (optional).
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+String with field=value pairs separated by ','. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="invert"></a><strong>invert</strong>&nbsp;(tab)</dt>
+<dd>
+Inverts the array part of a given table.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  tab: Table to be inverted. 
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="twostr"></a><strong>twostr</strong>&nbsp;(tab, ksep, vsep, kfilter, vfilter)</dt>
+<dd>
+Builds two lists, of keys and of values. The values are written between "'", except the constant sql.NULL.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  tab: Table of key=value pairs.
+	</li>
+	
+	<li>
+	  ksep: String with key separator (default = ',').
+	</li>
+	
+	<li>
+	  vsep: String with value separator (default = ',').
+	</li>
+	
+	<li>
+	  kfilter: Function to filter the keys (optional).
+	</li>
+	
+	<li>
+	  vfilter: Function to filter the values (optional).
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Two strings; the first with a list of the fields and the second with a list of the values. 
+
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->	
+</body>
+</html>
