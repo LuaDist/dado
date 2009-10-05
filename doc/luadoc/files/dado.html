@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Reference</title>
-    <link rel="stylesheet" href="../../luadoc.css" type="text/css" />
+    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
 	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
 </head>
 
@@ -24,7 +24,7 @@
 <h1>LuaDoc</h1>
 <ul>
 	
-	<li><a href="../../index.html">Index</a></li>
+	<li><a href="../index.html">Index</a></li>
 	
 </ul>
 
@@ -35,27 +35,23 @@
 <ul>
 
 	<li>
-		<a href="../../modules/check.html">check</a>
+		<a href="../modules/dado.html">dado</a>
 	</li>
 
 	<li>
-		<a href="../../modules/dado.html">dado</a>
+		<a href="../modules/dado.object.html">dado.object</a>
 	</li>
 
 	<li>
-		<a href="../../modules/dado.object.html">dado.object</a>
+		<a href="../modules/dado.sql.html">dado.sql</a>
 	</li>
 
 	<li>
-		<a href="../../modules/dado.sql.html">dado.sql</a>
+		<a href="../modules/string.extra.html">string.extra</a>
 	</li>
 
 	<li>
-		<a href="../../modules/string.extra.html">string.extra</a>
-	</li>
-
-	<li>
-		<a href="../../modules/table.extra.html">table.extra</a>
+		<a href="../modules/table.extra.html">table.extra</a>
 	</li>
 
 </ul>
@@ -67,30 +63,22 @@
 <h1>Files</h1>
 <ul>
 
-	<li>
-		<a href="../../files/check.html">check.lua</a>
-	</li>
-
-	<li><strong>dado/init.lua</strong></li>
+	<li><strong>dado.lua</strong></li>
 	
 	<li>
-		<a href="../../files/dado/object.html">dado/object.lua</a>
+		<a href="../files/dado/object.html">dado/object.lua</a>
 	</li>
 
 	<li>
-		<a href="../../files/dado/sql.html">dado/sql.lua</a>
+		<a href="../files/dado/sql.html">dado/sql.lua</a>
 	</li>
 
 	<li>
-		<a href="../../files/rm_check.html">rm_check.lua</a>
+		<a href="../files/string/extra.html">string/extra.lua</a>
 	</li>
 
 	<li>
-		<a href="../../files/string.extra.html">string.extra.lua</a>
-	</li>
-
-	<li>
-		<a href="../../files/table.extra.html">table.extra.lua</a>
+		<a href="../files/table/extra.html">table/extra.lua</a>
 	</li>
 
 </ul>
@@ -104,7 +92,7 @@
 
 <div id="content">
 
-<h1>File <code>dado/init.lua</code></h1>
+<h1>File <code>dado.lua</code></h1>
 
 
 <p>Dado is a set of facilities implemented over LuaSQL connection objects. This module's goal is to simplify the most used database operations. </p>
@@ -112,7 +100,7 @@
 
 
 
-<p><small><b>Release:</b> $Id: init.lua,v 1.5 2008/04/20 21:27:42 tomas Exp $ </small></p>
+<p><small><b>Release:</b> $Id: dado.lua,v 1.1 2009-10-01 13:42:54 tomas Exp $ </small></p>
 
 
 
@@ -177,6 +165,11 @@
 	<tr>
 	<td class="name" nowrap><a href="#update">update</a>&nbsp;(self, tabname, contents, cond)</td>
 	<td class="summary">Updates existing rows.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#wrap_connection">wrap_connection</a>&nbsp;(conn, key)</td>
+	<td class="summary">Wraps a database connection into a connection object.</td>
 	</tr>
 
 </table>
@@ -362,7 +355,7 @@ Number of rows affected.
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="../../modules/dado.sql.html#delete">
+	<li><a href="../modules/dado.sql.html#delete">
 		dado.sql.delete
 	</a>
 	
@@ -408,7 +401,7 @@ Number of rows affected.
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="../../modules/dado.sql.html#insert">
+	<li><a href="../modules/dado.sql.html#insert">
 		dado.sql.insert
 	</a>
 	
@@ -521,15 +514,21 @@ Retrieves rows. Creates an iterator over the result of a query. This iterator co
 
 
 
-<h3>Return value:</h3>
-Iterator over the result set. 
+<h3>Return values:</h3>
+<ol>
+	
+	<li>Iterator over the result set.
+	
+	<li>Cursor object (to allow explicit closing). 
+	
+</ol>
 
 
 
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="../../modules/dado.sql.html#select">
+	<li><a href="../modules/dado.sql.html#select">
 		dado.sql.select
 	</a>
 	
@@ -583,7 +582,7 @@ Table with the entire result set.
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="../../modules/dado.sql.html#select">
+	<li><a href="../modules/dado.sql.html#select">
 		dado.sql.select
 	</a>
 	
@@ -663,11 +662,44 @@ Number of rows affected.
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="../../modules/dado.sql.html#update">
+	<li><a href="../modules/dado.sql.html#update">
 		dado.sql.update
 	</a>
 	
 </ul>
+
+</dd>
+
+
+
+
+<dt><a name="wrap_connection"></a><strong>wrap_connection</strong>&nbsp;(conn, key)</dt>
+<dd>
+Wraps a database connection into a connection object.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  conn: Object with LuaSQL database connection.
+	</li>
+	
+	<li>
+	  key: String with the key to the database object in the cache.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Dado Connection. 
+
+
 
 </dd>
 

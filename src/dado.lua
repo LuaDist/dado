@@ -2,24 +2,36 @@
 -- Dado is a set of facilities implemented over LuaSQL connection objects.
 -- This module's goal is to simplify the most used database operations.
 --
--- @release $Id: init.lua,v 1.5 2008/04/20 21:27:42 tomas Exp $
+-- @release $Id: dado.lua,v 1.1 2009-10-01 13:42:54 tomas Exp $
 ---------------------------------------------------------------------
 
 -- Stores all dependencies in locals
 local strformat = require"string".format
-local check     = require"check"
 local sql       = require"dado.sql"
 
-local error, require, setmetatable, tostring = error, require, setmetatable, tostring
+local error, pcall, require, setmetatable, tostring = error, pcall, require, setmetatable, tostring
 
 module"dado"
 
-_COPYRIGHT = "Copyright (C) 2008 PUC-Rio"
+_COPYRIGHT = "Copyright (C) 2009 PUC-Rio"
 _DESCRIPTION = "Dado is a set of facilities implemented over LuaSQL connection objects"
-_VERSION = "Dado 1.0.0"
+_VERSION = "Dado 1.1.0"
+
+local mt = { __index = _M, }
+
+---------------------------------------------------------------------
+-- Wraps a database connection into a connection object.
+-- @param conn Object with LuaSQL database connection.
+-- @param key String with the key to the database object in the cache.
+-- @return Dado Connection.
+---------------------------------------------------------------------
+function wrap_connection (conn, key)
+	local obj = { conn = conn, key = key, }
+	setmetatable (obj, mt)
+	return obj
+end
 
 local cache = {}
-local mt = { __index = _M, }
 
 --
 local function makekey (dbname, dbuser, dbpass)
@@ -35,34 +47,34 @@ end
 -- @return Connection.
 ---------------------------------------------------------------------
 function connect (dbname, dbuser, dbpass, driver, ...)
-	check.str (dbname, 1, "connect")
-	check.optstr (dbuser, 2, "connect")
-	check.optstr (dbpass, 3, "connect")
-	check.optstr (driver, 4, "connect")
 	driver = driver or "postgres"
 
 	-- Creating new object
 	local key = makekey (dbname, dbuser, dbpass)
-	local obj = { conn = cache[key], key = key, }
-	setmetatable (obj, mt)
-	if not obj.conn then
+	local conn = cache[key]
+	if not conn then
 		-- Opening database connection
-		local luasql = require("luasql."..driver)
+		local ok, luasql = pcall (require, "luasql."..driver)
+		if not ok then
+			error ("Could not load LuaSQL driver `"..driver.."'. Maybe it is not installed properly.\nLuaSQL: "..luasql)
+		end
 		local env, err = luasql[driver] ()
 		if not env then error (err, 2) end
-		obj.conn, err = env:connect (dbname, dbuser, dbpass, ...)
-		if not obj.conn then error (err, 2) end
+		conn, err = env:connect (dbname, dbuser, dbpass, ...)
+		if not conn then error (err, 2) end
 		-- Storing connection on the cache
-		cache[key] = obj.conn
+		cache[key] = conn
 	end
-	return obj
+	return wrap_connection (conn, key)
 end
 
 ---------------------------------------------------------------------
 -- Closes the connection and invalidates the object.
 ---------------------------------------------------------------------
 function close (self)
-	cache[self.key] = nil
+	if self.key then
+		cache[self.key] = nil
+	end
 	self.conn:close ()
 	self.conn = nil
 	setmetatable (self, nil)
@@ -96,7 +108,6 @@ end
 --	(it never returns nil,errmsg).
 ---------------------------------------------------------------------
 function assertexec (self, stmt)
-	check.str (stmt, 1)
 	local cur, msg = self.conn:execute (stmt)
 	return cur or error (msg.." SQL = { "..stmt.." }", 2)
 end
@@ -109,8 +120,6 @@ end
 -- @return String with next sequence value.
 ---------------------------------------------------------------------
 function nextval (self, seq, field)
-	check.str (seq, 1, "db.nextval")
-	check.optstr (field, 2, "db.nextval")
 	if field then
 		seq = strformat ("%s_%s_seq", seq, field)
 	end
@@ -166,9 +175,9 @@ end
 --	a table or the values directly).
 -- @see dado.sql.select
 -- @return Iterator over the result set.
+-- @return Cursor object (to allow explicit closing).
 ---------------------------------------------------------------------
 function select (self, columns, tabname, cond, extra, mode)
-	check.optstr (mode, 5)
 	local stmt = sql.select (columns, tabname, cond, extra)
 	local cur = assertexec (self, stmt)
 	return function ()
@@ -177,7 +186,7 @@ function select (self, columns, tabname, cond, extra, mode)
 		local t
 		if mode then t = {} end
 		return cur:fetch (t, mode)
-	end
+	end, cur
 end
 
 ---------------------------------------------------------------------

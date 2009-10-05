@@ -2,6 +2,15 @@
 
 local sql = require"dado.sql"
 
+-- assert
+assert (sql.escape([[a'b]], "'") == [[a\'b]])
+assert (sql.escape([[a'b]], "'") == [[a\'b]])
+
+-- quote
+assert (sql.quote([[a'b]]) == [['a\'b']])
+assert (sql.quote([[a\'b]]) == [['a\\\'b']])
+assert (sql.quote([[\'b\']]) == [['\\\'b\\\'']])
+
 -- select
 assert (sql.select("a", "t") == "select a from t")
 assert (sql.select("a", "t", "w") == "select a from t where w")

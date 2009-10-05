@@ -3,7 +3,7 @@
 local dbobj = require"dado.object"
 local dado = require"dado"
 local dbname = arg[1] or "teste"
-local user = arg[2] or "postgres"
+local user = arg[2]
 local pass = arg[3]
 local driver = arg[4]
 
@@ -58,6 +58,13 @@ assert (p.nome == "Beltrano")
 assert (rawget (p, "nome") == "Beltrano")
 assert (rawget (p, "id") == "2")
 assert (p:signature() == "Beltrano (beltrano@cafundo.com)")
+io.write"."
+
+-- Tentando acrescentar um registro sem chave ao banco
+local p = Pessoa:new (db, { nome = "Outro", email = "outro@qualquer.com", })
+assert (pcall (p.save, p) == false)
+p.id = 3
+assert (p:save () == true)
 io.write"."
 
 -- Criando outra tabela no banco

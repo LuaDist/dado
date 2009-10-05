@@ -1,11 +1,10 @@
 ---------------------------------------------------------------------
 -- Compose SQL statements.
 --
--- @release $Id: sql.lua,v 1.5 2008/04/09 03:16:15 tomas Exp $
+-- @release $Id: sql.lua,v 1.8 2009-10-01 13:48:31 tomas Exp $
 ---------------------------------------------------------------------
 
 -- Stores all names inherited in locals
-local check  = require"check"
 local string = require"string"
 local gsub, strfind, strformat = string.gsub, string.find, string.format
 local table  = require"table.extra"
@@ -13,9 +12,9 @@ local tabfullconcat, tabtwostr = table.fullconcat, table.twostr
 
 module"dado.sql"
 
-_COPYRIGHT = "Copyright (C) 2008 PUC-Rio"
+_COPYRIGHT = "Copyright (C) 2009 PUC-Rio"
 _DESCRIPTION = "SQL is a collection of functions to create SQL statements"
-_VERSION = "Dado SQL 1.0.0"
+_VERSION = "Dado SQL 1.1.0"
 
 ---------------------------------------------------------------------
 -- Quote a value to be included in an SQL statement.
@@ -27,14 +26,12 @@ _VERSION = "Dado SQL 1.0.0"
 -- @return String with prepared value.
 ---------------------------------------------------------------------
 function quote (s, quote, sub)
-    check.str (s, 1)
-    check.optstr (quote, 2)
-    check.optstr (sub, 3)
     quote = quote or "'"
+	sub = sub or "\\"
     if strfind (s, "^%(.*%)$") then
         return s
     else
-        return quote..escape (s, quote, sub)..quote
+        return quote..escape (escape (s, sub, sub), quote, sub)..quote
     end
 end
 
@@ -48,9 +45,6 @@ end
 ---------------------------------------------------------------------
 function escape (s, char, sub)
     if not s then return end
-    check.str (s, 1)
-    check.optstr (char, 2)
-    check.optstr (sub, 3)
     char = char or "%s"
     sub = sub or "\\"
     s = gsub (s, "("..char..")", sub.."%1")
@@ -71,10 +65,6 @@ end
 -- @return String with SELECT command.
 ---------------------------------------------------------------------
 function select (columns, tabname, cond, extra)
-	check.str (columns, 1, "sql.select")
-	check.optstr (tabname, 2, "sql.select")
-	check.optstr (cond, 3, "sql.select")
-	check.optstr (extra, 4, "sql.select")
 	tabname  = tabname and (" from "..tabname) or ""
 	cond     = cond and (" where "..cond) or ""
 	extra    = extra and (" "..extra) or ""
@@ -101,7 +91,6 @@ end
 -- @return String with INSERT command.
 ---------------------------------------------------------------------
 function insert (tabname, contents)
-	check.str (tabname, 1, "sql.insert")
 	return strformat ("insert into %s (%s) values (%s)",
 		tabname, tabtwostr (contents, ',', ',', nil, quote))
 end
@@ -114,13 +103,11 @@ end
 -- @return String with UPDATE command.
 ---------------------------------------------------------------------
 function update (tabname, contents, cond)
-	check.str (tabname, 1, "sql.update")
-	check.table (contents, 2, "sql.update")
-	check.optstr (cond, 3, "sql.update")
 	cond = cond and (" where "..cond) or ""
-	return strformat ("update %s set %s%s", tabname,
-		tabfullconcat (contents, '=', ',', nil, quote),
-		cond)
+	local set = contents
+		and " set "..tabfullconcat (contents, '=', ',', nil, quote)
+		or ""
+	return strformat ("update %s%s%s", tabname, set, cond)
 end
 
 ---------------------------------------------------------------------
@@ -130,8 +117,6 @@ end
 -- @return String with DELETE command.
 ---------------------------------------------------------------------
 function delete (tabname, cond)
-	check.str (tabname, 1, "sql.delete")
-	check.optstr (cond, 2, "sql.delete")
 	cond = cond and (" where "..cond) or ""
 	return strformat ("delete from %s%s", tabname, cond)
 end
