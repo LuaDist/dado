@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------
 -- Compose SQL statements.
 --
--- @release $Id: sql.lua,v 1.8 2009-10-01 13:48:31 tomas Exp $
+-- @release $Id: sql.lua,v 1.9 2010-06-09 21:09:18 tomas Exp $
 ---------------------------------------------------------------------
 
 -- Stores all names inherited in locals
@@ -12,9 +12,9 @@ local tabfullconcat, tabtwostr = table.fullconcat, table.twostr
 
 module"dado.sql"
 
-_COPYRIGHT = "Copyright (C) 2009 PUC-Rio"
+_COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
 _DESCRIPTION = "SQL is a collection of functions to create SQL statements"
-_VERSION = "Dado SQL 1.1.0"
+_VERSION = "Dado SQL 1.2.0"
 
 ---------------------------------------------------------------------
 -- Quote a value to be included in an SQL statement.
@@ -49,6 +49,18 @@ function escape (s, char, sub)
     sub = sub or "\\"
     s = gsub (s, "("..char..")", sub.."%1")
     return s
+end
+
+---------------------------------------------------------------------
+-- Composes a simple SQL AND-expression.
+-- For complex expressions, write them explicitly.
+-- There is no OR-expression equivalent function (I don't know how to
+--	express it conveniently in Lua).
+-- @param tab Table with key-value pairs representing equalities.
+-- @return String with the resulting expression.
+---------------------------------------------------------------------
+function AND (tab)
+	return tabfullconcat (tab, "=", " AND ", nil, quote)
 end
 
 ---------------------------------------------------------------------

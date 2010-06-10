@@ -100,12 +100,17 @@
 
 
 
-<p><small><b>Release:</b> $Id: sql.lua,v 1.8 2009-10-01 13:48:31 tomas Exp $ </small></p>
+<p><small><b>Release:</b> $Id: sql.lua,v 1.9 2010-06-09 21:09:18 tomas Exp $ </small></p>
 
 
 
 <h2>Functions</h2>
 <table class="function_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#AND">AND</a>&nbsp;(tab)</td>
+	<td class="summary">Composes a simple SQL AND-expression.</td>
+	</tr>
 
 	<tr>
 	<td class="name" nowrap><a href="#delete">delete</a>&nbsp;(tabname, cond)</td>
@@ -157,6 +162,35 @@
 
 <h2><a name="functions"></a>Functions</h2>
 <dl class="function">
+
+
+
+<dt><a name="AND"></a><strong>AND</strong>&nbsp;(tab)</dt>
+<dd>
+Composes a simple SQL AND-expression. For complex expressions, write them explicitly. There is no OR-expression equivalent function (I don't know how to express it conveniently in Lua).
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  tab: Table with key-value pairs representing equalities.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+String with the resulting expression. 
+
+
+
+</dd>
+
 
 
 

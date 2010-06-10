@@ -16,6 +16,9 @@
 	</div>
 	<div id="product_name"><big><b>Dado</b></big></div>
 	<div id="product_description">Database Facilities for LuaSQL</div>
+    <div id="product_languages" align="right"><small>
+        english&middot;<a href="br/index.html">portugu&ecirc;s</a>
+    </small></div>
 </div> <!-- id="product" -->
 
 <div id="main">
@@ -78,7 +81,7 @@ columns, or classes that are not related to only one database table.
 <h2><a name="status"></a>Status</h2>
 
 <p>
-Current version is 1.1.0.
+Current version is 1.2.0.
 It was developed for Lua 5.1.
 </p>
 
@@ -94,9 +97,8 @@ Dado can be downloaded from its
 <h2><a name="installation"></a>Installation</a></h2>
 
 <p>
-Dado is a Lua 5.1 set of modules which should be installed in your LUA_PATH.
-The distribution provides a Makefile for *nix which should be able to
-install the package properly.
+Dado is a Lua 5.1 set of modules which should be installed in your LUA_PATH, respecting the directory structure in the <code>src</code> folder of the distribution file.
+LuaRocks can be used to install it since Dado is also distributed as a <a href="http://luarocks.org/repositories/rocks/#dado">rock</a>.
 </p>
 
 
@@ -110,9 +112,13 @@ The <a href="luadoc/index.html">API</a> is documented with LuaDoc.
 <h2><a name="history"></a>History</h2>
 
 <ul>
+    <li>[??/??/2010] Version 1.2.0 released<br/>
+        Adding convenience function <code>sql.AND</code><br/>
+        Adding <a href="br/index.html">portuguese documentation</a>
     <li>[05/oct/2009] Version 1.1.0 released<br/>
-        Adding function <code>wrap_connection</code>
-        Removing <code>check</code> library
+        Adding function <code>wrap_connection</code><br/>
+        Removing <code>check</code> library<br/>
+        Deployment via <a href="http://www.luarocks.org">LuaRocks</a>
     <li>[29/sep/2009] Version 1.0.1 released<br/>
         Bug correction in function <code>sql.quote</code>
     </li>
@@ -146,7 +152,7 @@ Comments are welcome!</p>
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: index.html,v 1.10 2009-09-30 19:21:47 tomas Exp $</small></p>
+	<p><small>$Id: index.html,v 1.14 2010-06-10 11:58:09 tomas Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->

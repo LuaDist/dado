@@ -1,7 +1,7 @@
-#!/usr/local/bin/lua5.1
+#!/usr/local/bin/lua
 
-local path = arg[0]:sub (1, arg[0]:find"/")
-if arg[0]:find"/" == nil then
+local path = arg[0]:sub (1, arg[0]:find"/overall")
+if arg[0]:find"/overall" == nil then
 	path = ""
 end
 

@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua5.1
+#!/usr/local/bin/lua
 
 local table = require"table.extra"
 local quote = require"dado.sql".quote

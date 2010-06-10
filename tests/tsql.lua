@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua5.1
+#!/usr/local/bin/lua
 
 local sql = require"dado.sql"
 
@@ -27,11 +27,12 @@ assert (stmt == "insert into t (a,b) values ('1','qw')" or
 assert (sql.update("t", { a = 1 }) == "update t set a='1'")
 local stmt = sql.update("t", { a = 1, b = "qw" })
 assert (stmt == "update t set a='1',b='qw'")
---assert (stmt == "update t set a='1',b='qw'" or
-        --stmt == "update t set b='qw',a='1'")
 
 -- delete
 assert (sql.delete("t") == "delete from t")
 assert (sql.delete("t", "a=1") == "delete from t where a=1")
+
+-- simple and expression
+assert (sql.AND { a = 1, b = 2 } == "a='1' AND b='2'")
 
 print"Ok!"

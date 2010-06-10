@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua5.1
+#!/usr/local/bin/lua
 
 local dbobj = require"dado.object"
 local dado = require"dado"

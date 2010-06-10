@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua5.1
+#!/usr/local/bin/lua
 
 local dado = require"dado"
 local dbname = arg[1] or "teste"
