@@ -121,4 +121,4 @@ assert (rawget (prof, "email") == "beltrano@cafundo.com")
 assert (prof:signature() == "Beltrano (beltrano@cafundo.com)")
 io.write"."
 
-print"Ok!"
+print" Ok!"

@@ -8,8 +8,10 @@ assert (table.fullconcat{} == "")
 assert (table.fullconcat{a=1} == "a=1")
 local s = table.fullconcat ({["a'b"]=1, b="q'a"}, " -> ", " AND ", quote, quote)
 assert (s == "'a\\'b' -> '1' AND 'b' -> 'q\\'a'", ">>"..s.."<<")
---assert (s == "'a\\'b' -> '1' AND 'b' -> 'q\\'a'" or
-        --s == "'b' -> 'q\\'a' AND 'a\\'b' -> '1'")
+local ok, err = pcall (table.pfullconcat, {a = {}})
+assert (not ok, err:match"string expected, got table")
+local ok, err = pcall (table.pfullconcat, 2)
+assert (not ok, err:match"table expected, got number")
 
 -- twostr
 local k,v = table.twostr{}

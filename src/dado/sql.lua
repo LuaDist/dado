@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------
 -- Compose SQL statements.
 --
--- @release $Id: sql.lua,v 1.9 2010-06-09 21:09:18 tomas Exp $
+-- @release $Id: sql.lua,v 1.10 2010-07-27 19:24:16 tomas Exp $
 ---------------------------------------------------------------------
 
 -- Stores all names inherited in locals
@@ -9,12 +9,13 @@ local string = require"string"
 local gsub, strfind, strformat = string.gsub, string.find, string.format
 local table  = require"table.extra"
 local tabfullconcat, tabtwostr = table.fullconcat, table.twostr
+local tonumber, type = tonumber, type
 
 module"dado.sql"
 
 _COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
 _DESCRIPTION = "SQL is a collection of functions to create SQL statements"
-_VERSION = "Dado SQL 1.2.0"
+_VERSION = "Dado SQL 1.3.0"
 
 ---------------------------------------------------------------------
 -- Quote a value to be included in an SQL statement.
@@ -61,6 +62,22 @@ end
 ---------------------------------------------------------------------
 function AND (tab)
 	return tabfullconcat (tab, "=", " AND ", nil, quote)
+end
+
+---------------------------------------------------------------------
+-- Checks if the argument is an integer.
+-- Use this function to check whether a value can be used as a
+--	database integer key.
+-- @param id String with the key to check.
+-- @return Boolean or Number (any number can be considered as true) or nil.
+---------------------------------------------------------------------
+function isinteger (id)
+	local tid = type(id)
+	if tid == "string" then
+		return (not id:match"%a") and (tonumber(id) ~= nil)
+	else
+		return tid == "number"
+	end
 end
 
 ---------------------------------------------------------------------

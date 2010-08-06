@@ -14,6 +14,7 @@ local mt = getmetatable(db)
 assert (type(mt) == "table")
 assert (type(mt.__index) == "table")
 assert (mt.__index == dado)
+io.write"."
 
 -- Teste de encerramento e reabertura da conexao
 db2 = dado.connect (dbname, user, pass, driver)
@@ -23,9 +24,11 @@ assert (db.conn == nil)
 db2 = dado.connect (dbname, user, pass, driver)
 assert (db2.conn)
 db = dado.connect (dbname, user, pass, driver)
+io.write"."
 
 -- Elimina a tabela de teste
 db.conn:execute ("drop table tabela")
+io.write"."
 
 -- Criando a tabela de teste
 assert (db:assertexec ([[
@@ -36,6 +39,7 @@ create table tabela (
 	data   date,
 	primary key (chave)
 )]]))
+io.write"."
 
 -- Dados para o teste
 dados = {
@@ -50,6 +54,7 @@ for indice, registro in ipairs(dados) do
 	registro.chave = indice
     assert (1 == db:insert ("tabela", registro))
 end
+io.write"."
 
 -- Consulta
 local contador = 0
@@ -62,7 +67,8 @@ for campo1, campo2 in select_iter do
 	assert (campo1 == dados[contador].campo1)
 	assert (campo2 == dados[contador].campo2)
 end
-assert(cur:close() == false)
+cur:close()
+io.write"."
 
 -- Teste de valores especiais para datas
 local n = #dados + 1
@@ -71,6 +77,7 @@ db:insert ("tabela", {
 	chave = n,
 	data = "(CURRENT_TIMESTAMP)",
 })
+io.write"."
 
 -- Redefinindo a `assertexec'
 local log_table = {}
@@ -84,12 +91,14 @@ end
 assert (log_table[1] == nil)
 assert (db:select ("*", "tabela")())
 assert (log_table[1] == "select * from tabela", ">>"..tostring(log_table[1]))
+io.write"."
 
 -- Wrapping an already open connection
 driver = driver or "postgres"
 local env = luasql[driver]()
 local conn = env:connect(dbname, user, pass)
 local new_db = dado.wrap_connection(conn)
+io.write"."
 
 assert (type(new_db) == "table", "Nao consegui criar a conexao")
 assert (type(new_db.conn) == "userdata")
@@ -98,8 +107,10 @@ local mt = getmetatable(new_db)
 assert (type(mt) == "table")
 assert (type(mt.__index) == "table")
 assert (mt.__index == dado)
+io.write"."
 
 new_db:close()
 assert (new_db.conn == nil)
+io.write"."
 
-print"Ok!"
+print" Ok!"

@@ -100,7 +100,7 @@
 
 
 
-<p><small><b>Release:</b> $Id: sql.lua,v 1.9 2010-06-09 21:09:18 tomas Exp $ </small></p>
+<p><small><b>Release:</b> $Id: sql.lua,v 1.10 2010-07-27 19:24:16 tomas Exp $ </small></p>
 
 
 
@@ -125,6 +125,11 @@
 	<tr>
 	<td class="name" nowrap><a href="#insert">insert</a>&nbsp;(tabname, contents)</td>
 	<td class="summary">Builds a string with an INSERT command.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#isinteger">isinteger</a>&nbsp;(id)</td>
+	<td class="summary">Checks if the argument is an integer.</td>
 	</tr>
 
 	<tr>
@@ -289,6 +294,35 @@ Builds a string with an INSERT command.
 
 <h3>Return value:</h3>
 String with INSERT command. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="isinteger"></a><strong>isinteger</strong>&nbsp;(id)</dt>
+<dd>
+Checks if the argument is an integer. Use this function to check whether a value can be used as a database integer key.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  id: String with the key to check.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Boolean or Number (any number can be considered as true) or nil. 
 
 
 

@@ -3,10 +3,10 @@
 --
 -- @class module
 -- @name table.extra
--- @release $Id: extra.lua,v 1.1 2009-10-01 13:48:31 tomas Exp $
+-- @release $Id: extra.lua,v 1.5 2010-08-05 20:10:23 tomas Exp $
 ---------------------------------------------------------------------
 
-local ipairs, pairs = ipairs, pairs
+local assert, ipairs, pairs, type = assert, ipairs, pairs, type
 
 local math    = require"math"
 local table   = require"table"
@@ -45,7 +45,7 @@ end
 -- @return String with field=value pairs separated by ','.
 ---------------------------------------------------------------------
 function fullconcat (tab, kvsep, pairssep, kfilter, vfilter)
-	pairssep  = pairssep or ','
+	pairssep = pairssep or ','
 	local formatstring = "%s"..(kvsep or '=').."%s"
 	local l = {}
 	local i = 0
@@ -60,8 +60,54 @@ function fullconcat (tab, kvsep, pairssep, kfilter, vfilter)
 end
 
 ---------------------------------------------------------------------
+-- Produces the same result as fullconcat, but it checks the arguments'
+--	types.
+-- @see fullconcat.
+-- @param tab Table of field=value pairs.
+-- @param kvsep String with key-value separator (default = '=').
+-- @param pairssep String with pairs separator (default = ',').
+-- @param kfilter Function to filter the keys (optional).
+-- @param vfilter Function to filter the values (optional).
+-- @return String with field=value pairs separated by ','.
+---------------------------------------------------------------------
+function pfullconcat (tab, kvsep, pairssep, kfilter, vfilter)
+	local tt = type(tab)
+	assert (tt == "table",
+		"Bad argument #1 to 'pfullconcat' (table expected, got "..tt..")")
+	local tkv = type(kvsep)
+	assert (tkv == "nil" or tkv == "string" or tkv == "number",
+		"Bad argument #2to 'pfullconcat' (string expected, got "..tkv..")")
+	local tp = type(pairssep)
+	assert (tp == "nil" or tp == "string" or tp == "number",
+		"Bad argument #3 to 'pfullconcat' (string expected, got "..tp..")")
+	local tkf = type(kfilter)
+	assert (tkf == "nil" or tkf == "function",
+		"Bad argument #4 to 'pfullconcat' (function expected, got "..tkf..")")
+	local tkv = type(vfilter)
+	assert (tkv == "nil" or tkv == "function",
+		"Bad argument $5 to 'pfullconcat' (function expected, got "..tkv..")")
+	pairssep = pairssep or ','
+	local formatstring = "%s"..(kvsep or '=').."%s"
+	local l = {}
+	local i = 0
+	for key, val in pairs (tab) do
+		local tk = type(key)
+		assert (tk == "string" or tk == "number",
+			"Bad key type (string expected, got "..tk..")")
+		local tv = type(val)
+		assert (tv == "string" or tv == "number",
+			"Bad value type on key "..key.." (string expected, got "..tv..")")
+		i = i+1
+		l[i] = strformat (formatstring,
+			kfilter and kfilter(key) or key,
+			vfilter and vfilter(val) or val)
+	end
+	table.sort (l)
+	return table.concat (l, pairssep)
+end
+
+---------------------------------------------------------------------
 -- Builds two lists, of keys and of values.
--- The values are written between "'", except the constant sql.NULL.
 -- @param tab Table of key=value pairs.
 -- @param ksep String with key separator (default = ',').
 -- @param vsep String with value separator (default = ',').
@@ -118,7 +164,7 @@ end
 -- @param tab Table of elements to be traversed.
 -- @param n Number of arguments of tab (default = #tab).
 -- @return Function which return the next element.
-
+---------------------------------------------------------------------
 function cycle (tab, n)
 	local i = 0
 	n = n or #tab
