@@ -7,7 +7,7 @@
 --	table_name = string with the name of the database table
 --	key_name = string with the name of the key attribute/field
 --
--- @release $Id: object.lua,v 1.9 2010-07-27 19:24:16 tomas Exp $
+-- @release $Id: object.lua,v 1.10 2010-10-04 17:39:52 tomas Exp $
 ---------------------------------------------------------------------------
 
 local ipairs, pairs, rawget, rawset, setmetatable, type = ipairs, pairs, rawget, rawset, setmetatable, type
@@ -20,7 +20,7 @@ module"dado.object"
 
 _COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
 _DESCRIPTION = "Database Object is a library to create classes and objects associated with database tables and rows"
-_VERSION = "Dado Object 1.3.0"
+_VERSION = "Dado Object 1.3.1"
 
 --
 -- Tries to create an expression with the given table of keys.

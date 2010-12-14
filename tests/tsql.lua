@@ -11,6 +11,8 @@ io.write"."
 assert (sql.quote([[a'b]]) == [['a\'b']])
 assert (sql.quote([[a\'b]]) == [['a\\\'b']])
 assert (sql.quote([[\'b\']]) == [['\\\'b\\\'']])
+assert (sql.quote([[()\'b\'()]]) == [['()\\\'b\\\'()']])
+assert (sql.quote([[(NULL)]]) == [[(NULL)]])
 io.write"."
 
 -- select
@@ -40,6 +42,8 @@ io.write"."
 
 -- simple AND expression
 assert (sql.AND { a = 1, b = 2 } == "a='1' AND b='2'")
+local sub = sql.subselect("id", "usuario", "nome ilike "..sql.quote"tomas%")
+assert (sql.AND { id = sub } == [[id=(select id from usuario where nome ilike 'tomas%')]], sql.AND { id = sub })
 io.write"."
 
 -- integer check
