@@ -1,19 +1,21 @@
-# Copyright (C) 2007-2009 LuaDist.
+# Copyright (C) 2007-2011 LuaDist.
 # Created by Peter Kapec
 # Redistribution and use of this file is allowed according to the terms of the MIT license.
 # For details see the COPYRIGHT file distributed with LuaDist.
 # Please note that the package source code is licensed under its own license.
 
-PROJECT(dado NONE)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-INCLUDE(dist.cmake)
+project ( dado NONE )
+cmake_minimum_required ( VERSION 2.6 )
+include ( dist.cmake )
 
-# Install all files and documentation
-INSTALL (DIRECTORY src/dado DESTINATION ${INSTALL_LMOD})
-INSTALL (FILES src/dado.lua DESTINATION ${INSTALL_LMOD})
-INSTALL (FILES src/string/extra.lua DESTINATION ${INSTALL_LMOD}/string )
-INSTALL (FILES src/table/extra.lua DESTINATION ${INSTALL_LMOD}/table )
+install_lua_module ( dado         src/dado.lua )
+install_lua_module ( dado.object  src/dado/object.lua )
+install_lua_module ( dado.sql     src/dado/sql.lua )
+install_lua_module ( table.extra  src/table/extra.lua )
+install_lua_module ( string.extra src/string/extra.lua )
 
-INSTALL (FILES README DESTINATION ${INSTALL_DATA})
-INSTALL (DIRECTORY tests/ DESTINATION ${INSTALL_TEST})
-INSTALL (DIRECTORY doc/ DESTINATION ${INSTALL_DOC})
+install_data ( README )
+install_test ( tests/ )
+install_doc ( doc/ )
+
+#FIX(package.path): add_lua_test ( tests/overall.lua ${CMAKE_CURRENT_SOURCE_DIR}/tests )
