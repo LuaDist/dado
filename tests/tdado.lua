@@ -1,8 +1,8 @@
-#!/usr/local/bin/lua5.1
+#!/usr/local/bin/lua
 
 local dado = require"dado"
 local dbname = arg[1] or "teste"
-local user = arg[2] or "postgres"
+local user = arg[2]
 local pass = arg[3]
 local driver = arg[4]
 
@@ -33,7 +33,8 @@ create table tabela (
 	chave integer,
 	campo1 varchar(10),
 	campo2 varchar(10),
-	data   date
+	data   date,
+	primary key (chave)
 )]]))
 
 -- Dados para o teste
@@ -45,17 +46,23 @@ dados = {
 
 -- Preenchendo a tabela
 for indice, registro in ipairs(dados) do
+	assert (false == pcall (db.insert, db, "tabela", registro))
 	registro.chave = indice
     assert (1 == db:insert ("tabela", registro))
 end
 
 -- Consulta
 local contador = 0
-for campo1, campo2 in db:select ("campo1, campo2", "tabela", "chave >= 1") do
-					contador = contador + 1
+local select_iter, cur = db:select ("campo1, campo2", "tabela", "chave >= 1")
+assert (type(select_iter) == "function")
+assert (cur, "Select didn't returned a cursor")
+assert (tostring(cur):find"ursor", "Select didn't returned a cursor object ("..tostring(cur)..")")
+for campo1, campo2 in select_iter do
+	contador = contador + 1
 	assert (campo1 == dados[contador].campo1)
 	assert (campo2 == dados[contador].campo2)
 end
+assert(cur:close() == false)
 
 -- Teste de valores especiais para datas
 local n = #dados + 1
@@ -77,5 +84,22 @@ end
 assert (log_table[1] == nil)
 assert (db:select ("*", "tabela")())
 assert (log_table[1] == "select * from tabela", ">>"..tostring(log_table[1]))
+
+-- Wrapping an already open connection
+driver = driver or "postgres"
+local env = luasql[driver]()
+local conn = env:connect(dbname, user, pass)
+local new_db = dado.wrap_connection(conn)
+
+assert (type(new_db) == "table", "Nao consegui criar a conexao")
+assert (type(new_db.conn) == "userdata")
+assert (string.find (tostring(new_db.conn), "connection"))
+local mt = getmetatable(new_db)
+assert (type(mt) == "table")
+assert (type(mt.__index) == "table")
+assert (mt.__index == dado)
+
+new_db:close()
+assert (new_db.conn == nil)
 
 print"Ok!"

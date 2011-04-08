@@ -7,11 +7,10 @@
 --	table_name = string with the name of the database table
 --	key_name = string with the name of the key attribute/field
 --
--- @release $Id: object.lua,v 1.4 2008/04/09 03:16:15 tomas Exp $
+-- @release $Id: object.lua,v 1.8 2010-06-09 21:09:18 tomas Exp $
 ---------------------------------------------------------------------------
 
-local getmetatable, ipairs, pairs, rawget, rawset, setmetatable, type = getmetatable, ipairs, pairs, rawget, rawset, setmetatable, type
-local check = require"check"
+local ipairs, pairs, rawget, rawset, setmetatable, type = ipairs, pairs, rawget, rawset, setmetatable, type
 local sql = require"dado.sql"
 local sqlquote, sqlselect = sql.quote, sql.select
 local strformat = require"string".format
@@ -19,9 +18,9 @@ local concat = require"table".concat
 
 module"dado.object"
 
-_COPYRIGHT = "Copyright (C) 2008 PUC-Rio"
+_COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
 _DESCRIPTION = "Database Object is a library to create classes and objects associated with database tables and rows"
-_VERSION = "Dado Object 1.0.0"
+_VERSION = "Dado Object 1.2.0"
 
 --
 -- Tries to create an expression with the given table of keys.
@@ -55,15 +54,6 @@ function db_identification (self)
 			return cond
 		end
 	end
---[[
-	local i = 1
-	local cond = build_expression (self, self.key_name)
-	while not cond and self.alternate_keys[i] do
-		cond = build_expression (self, self.alternate_keys[i])
-		i = i + 1
-	end
-	return cond
---]]
 end
 
 --
@@ -130,9 +120,6 @@ local mt = {
 -- @return Table representing the object.
 ---------------------------------------------------------------------------
 function new (class, dado, o)
-	check.table (class, 1)
-	check.table (dado, 2)
-	check.opttable (o, 3)
 	o = o or {}
 	o.__class = class
 	o.__dado = dado
@@ -141,11 +128,23 @@ function new (class, dado, o)
 end
 
 ---------------------------------------------------------------------------
+-- Creates a table with the raw data of the object.
+-- @return Table with field=value pairs.
+---------------------------------------------------------------------------
+function rawdata (self)
+	local r = {}
+	for field, f in pairs (self.db_fields) do
+		r[field] = rawget (self, field)
+	end
+	return r
+end
+
+---------------------------------------------------------------------------
 -- Inserts a new record in the database.
 -- @return Boolean indicating the success of the operation.
 ---------------------------------------------------------------------------
 function insert (self)
-	return self.__dado:insert (self.table_name, self) == 1
+	return self.__dado:insert (self.table_name, self:rawdata ()) == 1
 end
 
 ---------------------------------------------------------------------------
@@ -153,7 +152,7 @@ end
 -- @return Boolean indicating the success of the operation.
 ---------------------------------------------------------------------------
 function update (self)
-	return self.__dado:update (self.table_name, self, db_identification (self)) == 1
+	return self.__dado:update (self.table_name, self:rawdata (), db_identification (self)) == 1
 end
 
 ---------------------------------------------------------------------------
@@ -176,10 +175,6 @@ end
 -- @return Table representing the class.
 ---------------------------------------------------------------------------
 function class (self, c)
-	check.table (c, 2)
-	check.str (c.table_name, 2)
-	check.table (c.key_name, 2)
-	check.table (c.db_fields, 2)
 	setmetatable (c, { __index = self })
 	return c
 end

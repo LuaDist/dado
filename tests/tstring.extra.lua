@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua5.1
+#!/usr/local/bin/lua
 
 local str = require"string.extra"
 

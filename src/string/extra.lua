@@ -3,10 +3,9 @@
 --
 -- @class module
 -- @name string.extra
--- @release $Id: string.extra.lua,v 1.2 2008/01/03 18:09:15 raphael Exp $
+-- @release $Id: extra.lua,v 1.1 2009-10-01 13:48:31 tomas Exp $
 ---------------------------------------------------------------------
 
-local check = require"check"
 local string = require"string"
 
 module"string.extra"
@@ -19,7 +18,6 @@ module"string.extra"
 ---------------------------------------------------------------------
 function rmsp (s)
 	if not s then return end
-	check.str (s, 1)
 	s = string.gsub (s, "^%s*(.-)%s*$", "%1")
 	s = string.gsub (s, "%s%s+", " ")
 	return s
@@ -51,9 +49,6 @@ end
 ---------------------------------------------------------------------
 function torecord (s, sep, dest)
 	if not s then return end
-	check.str (s, 1)
-	check.optstr (sep, 2)
-	check.opttable (dest, 3)
 	sep = sep or ' '
 	if not dest then
 		dest = {}
@@ -73,9 +68,6 @@ end
 ---------------------------------------------------------------------
 function toarray (s, sep, dest)
 	if not s then return end
-	check.str (s, 1)
-	check.optstr (sep, 2)
-	check.opttable (dest, 3)
 	sep = sep or ' '
 	if not dest then
 		dest = {}

@@ -3,12 +3,11 @@
 --
 -- @class module
 -- @name table.extra
--- @release $Id: table.extra.lua,v 1.2 2007/07/04 19:56:00 tomas Exp $
+-- @release $Id: extra.lua,v 1.1 2009-10-01 13:48:31 tomas Exp $
 ---------------------------------------------------------------------
 
 local ipairs, pairs = ipairs, pairs
 
-local check   = require"check"
 local math    = require"math"
 local table   = require"table"
 local string  = require"string"
@@ -23,8 +22,6 @@ module"table.extra"
 -- @return Table representing a record.
 ---------------------------------------------------------------------
 function arraytorecord (tab, dest)
-	check.table (tab, 1)
-	check.opttable (dest, 2)
 	if not dest then
 		dest = {}
 	end
@@ -48,11 +45,6 @@ end
 -- @return String with field=value pairs separated by ','.
 ---------------------------------------------------------------------
 function fullconcat (tab, kvsep, pairssep, kfilter, vfilter)
-	check.table (tab, 1)
-	check.optstr (kvsep, 2)
-	check.optstr (pairssep, 3)
-	check.optfunc (kfilter, 4)
-	check.optfunc (vfilter, 5)
 	pairssep  = pairssep or ','
 	local formatstring = "%s"..(kvsep or '=').."%s"
 	local l = {}
@@ -79,11 +71,6 @@ end
 --	second with a list of the values.
 ---------------------------------------------------------------------
 function twostr (tab, ksep, vsep, kfilter, vfilter)
-	check.table (tab, 1)
-	check.optstr (ksep, 2)
-	check.optstr (vsep, 3)
-	check.optfunc (kfilter, 4)
-	check.optfunc (vfilter, 5)
 	ksep  = ksep or ','
 	vsep  = vsep or ','
 	local k, v = {}, {}
@@ -116,8 +103,6 @@ end
 -- @return Table with the results (a new table, if none provided).
 ---------------------------------------------------------------------
 function copyto (tab, dest)
-	check.table (tab, 1)
-	check.opttable (dest, 2)
 	if not dest then
 		dest = {}
 	end

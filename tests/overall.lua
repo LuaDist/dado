@@ -1,7 +1,9 @@
-#!/usr/local/bin/lua5.1
+#!/usr/local/bin/lua
 
---local arg = { ... }
-local path = arg[0]:sub (1, arg[0]:find"/")
+local path = arg[0]:sub (1, arg[0]:find"/overall")
+if arg[0]:find"/overall" == nil then
+	path = ""
+end
 
 io.write("string.extra ... ")
 assert(loadfile(path.."tstring.extra.lua"))()

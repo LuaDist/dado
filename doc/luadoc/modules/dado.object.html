@@ -35,10 +35,6 @@
 <ul>
 
 	<li>
-		<a href="../modules/check.html">check</a>
-	</li>
-
-	<li>
 		<a href="../modules/dado.html">dado</a>
 	</li>
 
@@ -66,11 +62,7 @@
 <ul>
 
 	<li>
-		<a href="../files/check.html">check.lua</a>
-	</li>
-
-	<li>
-		<a href="../files/dado/init.html">dado/init.lua</a>
+		<a href="../files/dado.html">dado.lua</a>
 	</li>
 
 	<li>
@@ -82,15 +74,11 @@
 	</li>
 
 	<li>
-		<a href="../files/rm_check.html">rm_check.lua</a>
+		<a href="../files/string/extra.html">string/extra.lua</a>
 	</li>
 
 	<li>
-		<a href="../files/string.extra.html">string.extra.lua</a>
-	</li>
-
-	<li>
-		<a href="../files/table.extra.html">table.extra.lua</a>
+		<a href="../files/table/extra.html">table/extra.lua</a>
 	</li>
 
 </ul>
@@ -110,7 +98,7 @@
 
 
 
-<p><small><b>Release:</b> $Id: object.lua,v 1.4 2008/04/09 03:16:15 tomas Exp $ </small></p>
+<p><small><b>Release:</b> $Id: object.lua,v 1.8 2010-06-09 21:09:18 tomas Exp $ </small></p>
 
 
 
@@ -130,6 +118,11 @@
 	<tr>
 	<td class="name" nowrap><a href="#new">new</a>&nbsp;(class, dado, o)</td>
 	<td class="summary">Creates a new object.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#rawdata">rawdata</a>&nbsp;(self)</td>
+	<td class="summary">Creates a table with the raw data of the object.</td>
 	</tr>
 
 	<tr>
@@ -250,6 +243,35 @@ Creates a new object.
 
 <h3>Return value:</h3>
 Table representing the object. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="rawdata"></a><strong>rawdata</strong>&nbsp;(self)</dt>
+<dd>
+Creates a table with the raw data of the object.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  self: 
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Table with field=value pairs. 
 
 
 
