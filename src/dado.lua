@@ -2,7 +2,9 @@
 -- Dado is a set of facilities implemented over LuaSQL connection objects.
 -- The module's goal is to simplify the most used database operations.
 --
--- @release $Id: dado.lua,v 1.4 2010-10-04 17:39:52 tomas Exp $
+-- Version 1.4.0.
+--
+-- @release $Id: dado.lua,v 1.6 2011-06-06 17:10:11 tomas Exp $
 --------------------------------------------------------------------------------
 
 local strformat = require"string".format
@@ -14,7 +16,7 @@ module"dado"
 
 _COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
 _DESCRIPTION = "Dado is a set of facilities implemented over LuaSQL connection objects"
-_VERSION = "Dado 1.3.1"
+_VERSION = "Dado 1.4.0"
 
 local mt = { __index = _M, }
 
@@ -113,8 +115,9 @@ end
 
 --------------------------------------------------------------------------------
 -- Obtains next value from a sequence.
--- @param seq String with sequence name.
--- @param field String (optional) with the name of the field associated
+-- @param seq String with sequence name (complete name or just the name of the
+--	table).
+-- @param field String (optional) with the name of the primary key associated
 --	with the sequence.
 -- @return String with next sequence value.
 --------------------------------------------------------------------------------

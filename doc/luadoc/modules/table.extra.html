@@ -46,10 +46,6 @@
 		<a href="../modules/dado.sql.html">dado.sql</a>
 	</li>
 
-	<li>
-		<a href="../modules/string.extra.html">string.extra</a>
-	</li>
-
 	<li><strong>table.extra</strong></li>
 	
 </ul>
@@ -74,10 +70,6 @@
 	</li>
 
 	<li>
-		<a href="../files/string/extra.html">string/extra.lua</a>
-	</li>
-
-	<li>
 		<a href="../files/table/extra.html">table/extra.lua</a>
 	</li>
 
@@ -98,7 +90,7 @@
 
 
 
-<p><small><b>Release:</b> $Id: extra.lua,v 1.5 2010-08-05 20:10:23 tomas Exp $ </small></p>
+<p><small><b>Release:</b> $Id: extra.lua,v 1.6 2011-03-25 21:43:19 tomas Exp $ </small></p>
 
 
 
@@ -106,28 +98,8 @@
 <table class="function_list">
 
 	<tr>
-	<td class="name" nowrap><a href="#arraytorecord">arraytorecord</a>&nbsp;(tab, dest)</td>
-	<td class="summary">Obtains a record from the elements of an array.</td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#copyto">copyto</a>&nbsp;(tab, dest)</td>
-	<td class="summary">Copies values from one table to another (or a new one).</td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#cycle">cycle</a>&nbsp;(tab, n)</td>
-	<td class="summary">Cyclic iterator over the arguments.</td>
-	</tr>
-
-	<tr>
 	<td class="name" nowrap><a href="#fullconcat">fullconcat</a>&nbsp;(tab, kvsep, pairssep, kfilter, vfilter)</td>
 	<td class="summary">Builds a list of pairs field=value, separated by commas.</td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#invert">invert</a>&nbsp;(tab)</td>
-	<td class="summary">Inverts the array part of a given table.</td>
 	</tr>
 
 	<tr>
@@ -154,105 +126,6 @@
 
 <h2><a name="functions"></a>Functions</h2>
 <dl class="function">
-
-
-
-<dt><a name="arraytorecord"></a><strong>arraytorecord</strong>&nbsp;(tab, dest)</dt>
-<dd>
-Obtains a record from the elements of an array.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  tab: Table representing the array.
-	</li>
-	
-	<li>
-	  dest: Table to receive the result (optional).
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-Table representing a record. 
-
-
-
-</dd>
-
-
-
-
-<dt><a name="copyto"></a><strong>copyto</strong>&nbsp;(tab, dest)</dt>
-<dd>
-Copies values from one table to another (or a new one). The values could overwrite pre-existing ones.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  tab: Table with the values.
-	</li>
-	
-	<li>
-	  dest: Table where to store the values (default = {}).
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-Table with the results (a new table, if none provided). 
-
-
-
-</dd>
-
-
-
-
-<dt><a name="cycle"></a><strong>cycle</strong>&nbsp;(tab, n)</dt>
-<dd>
-Cyclic iterator over the arguments. When reaching the end, it starts again over and over.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  tab: Table of elements to be traversed.
-	</li>
-	
-	<li>
-	  n: Number of arguments of tab (default = #tab).
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-Function which return the next element. 
-
-
-
-</dd>
-
 
 
 
@@ -293,32 +166,6 @@ Builds a list of pairs field=value, separated by commas. The '=' sign could be c
 
 <h3>Return value:</h3>
 String with field=value pairs separated by ','. 
-
-
-
-</dd>
-
-
-
-
-<dt><a name="invert"></a><strong>invert</strong>&nbsp;(tab)</dt>
-<dd>
-Inverts the array part of a given table.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  tab: Table to be inverted. 
-	</li>
-	
-</ul>
-
-
-
-
-
 
 
 

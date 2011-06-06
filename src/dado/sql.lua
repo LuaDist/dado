@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------
 -- Compose SQL statements.
 --
--- @release $Id: sql.lua,v 1.12 2010-10-04 19:09:50 tomas Exp $
+-- @release $Id: sql.lua,v 1.13 2011-06-06 17:10:18 tomas Exp $
 ---------------------------------------------------------------------
 
 local string = require"string"
@@ -14,7 +14,7 @@ module"dado.sql"
 
 _COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
 _DESCRIPTION = "SQL is a collection of functions to create SQL statements"
-_VERSION = "Dado SQL 1.3.1"
+_VERSION = "Dado SQL 1.4.0"
 
 ---------------------------------------------------------------------
 -- Quote a value to be included in an SQL statement.
@@ -52,8 +52,11 @@ function escape (s, char, sub)
 end
 
 ---------------------------------------------------------------------
--- Composes a simple SQL AND-expression.
--- For complex expressions, write them explicitly.
+-- Composes simple (almost trivial) SQL AND-expressions.
+-- There is no "magic" in this funcion, except that it 'quotes' the
+--	values.
+-- Hence, for expressions which have any operator other than '=',
+--	you should write them explicitly.
 -- There is no OR-expression equivalent function (I don't know how to
 --	express it conveniently in Lua).
 -- @param tab Table with key-value pairs representing equalities.

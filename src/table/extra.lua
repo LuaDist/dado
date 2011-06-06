@@ -3,33 +3,15 @@
 --
 -- @class module
 -- @name table.extra
--- @release $Id: extra.lua,v 1.5 2010-08-05 20:10:23 tomas Exp $
+-- @release $Id: extra.lua,v 1.6 2011-03-25 21:43:19 tomas Exp $
 ---------------------------------------------------------------------
 
-local assert, ipairs, pairs, type = assert, ipairs, pairs, type
+local assert, pairs, type = assert, pairs, type
 
-local math    = require"math"
 local table   = require"table"
-local string  = require"string"
-local strformat = string.format
+local strformat = require"string".format
 
 module"table.extra"
-
----------------------------------------------------------------------
--- Obtains a record from the elements of an array.
--- @param tab Table representing the array.
--- @param dest Table to receive the result (optional).
--- @return Table representing a record.
----------------------------------------------------------------------
-function arraytorecord (tab, dest)
-	if not dest then
-		dest = {}
-	end
-	for i, v in ipairs (tab) do
-		dest[v] = i
-	end
-	return dest
-end
 
 ---------------------------------------------------------------------
 -- Builds a list of pairs field=value, separated by commas.
@@ -127,49 +109,4 @@ function twostr (tab, ksep, vsep, kfilter, vfilter)
 		v[i] = vfilter and vfilter(val) or val
 	end
 	return table.concat (k, ksep), table.concat (v, vsep)
-end
-
----------------------------------------------------------------------
--- Inverts the array part of a given table.
--- @param tab Table to be inverted.
----------------------------------------------------------------------
-function invert (tab)
-	local n = #tab
-	for i = 1, n/2 do
-		local j = n-i+1
-		tab[i], tab[j] = tab[j], tab[i]
-	end
-end
-
----------------------------------------------------------------------
--- Copies values from one table to another (or a new one).
--- The values could overwrite pre-existing ones.
--- @param tab Table with the values.
--- @param dest Table where to store the values (default = {}).
--- @return Table with the results (a new table, if none provided).
----------------------------------------------------------------------
-function copyto (tab, dest)
-	if not dest then
-		dest = {}
-	end
-	for i, v in pairs(tab) do
-		dest[i] = v
-	end
-	return dest
-end
-
----------------------------------------------------------------------
--- Cyclic iterator over the arguments.
--- When reaching the end, it starts again over and over.
--- @param tab Table of elements to be traversed.
--- @param n Number of arguments of tab (default = #tab).
--- @return Function which return the next element.
----------------------------------------------------------------------
-function cycle (tab, n)
-	local i = 0
-	n = n or #tab
-	return function ()
-		i = math.mod (i, n) + 1
-		return tab[i]
-	end
 end
