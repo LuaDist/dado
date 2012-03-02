@@ -10,6 +10,5 @@ url = "http://luaforge.net/projects/dado"
 maintainer = "Peter Kapec"
 
 depends = {
-	"lua ~> 5.1",
-	"luasql >= 2.1"
+	"lua ~> 5.1"
 }
