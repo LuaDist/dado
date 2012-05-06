@@ -12,7 +12,6 @@ install_lua_module ( dado         src/dado.lua )
 install_lua_module ( dado.object  src/dado/object.lua )
 install_lua_module ( dado.sql     src/dado/sql.lua )
 install_lua_module ( table.extra  src/table/extra.lua )
-install_lua_module ( string.extra src/string/extra.lua )
 
 install_data ( README )
 install_test ( tests/ )
