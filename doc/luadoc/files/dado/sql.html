@@ -47,10 +47,6 @@
 	</li>
 
 	<li>
-		<a href="../../modules/string.extra.html">string.extra</a>
-	</li>
-
-	<li>
 		<a href="../../modules/table.extra.html">table.extra</a>
 	</li>
 
@@ -74,10 +70,6 @@
 	<li><strong>dado/sql.lua</strong></li>
 	
 	<li>
-		<a href="../../files/string/extra.html">string/extra.lua</a>
-	</li>
-
-	<li>
 		<a href="../../files/table/extra.html">table/extra.lua</a>
 	</li>
 
@@ -100,7 +92,7 @@
 
 
 
-<p><small><b>Release:</b> $Id: sql.lua,v 1.9 2010-06-09 21:09:18 tomas Exp $ </small></p>
+<p><small><b>Release:</b> $Id: sql.lua,v 1.13 2011-06-06 17:10:18 tomas Exp $ </small></p>
 
 
 
@@ -109,7 +101,7 @@
 
 	<tr>
 	<td class="name" nowrap><a href="#AND">AND</a>&nbsp;(tab)</td>
-	<td class="summary">Composes a simple SQL AND-expression.</td>
+	<td class="summary">Composes simple (almost trivial) SQL AND-expressions.</td>
 	</tr>
 
 	<tr>
@@ -125,6 +117,11 @@
 	<tr>
 	<td class="name" nowrap><a href="#insert">insert</a>&nbsp;(tabname, contents)</td>
 	<td class="summary">Builds a string with an INSERT command.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#isinteger">isinteger</a>&nbsp;(id)</td>
+	<td class="summary">Checks if the argument is an integer.</td>
 	</tr>
 
 	<tr>
@@ -167,7 +164,7 @@
 
 <dt><a name="AND"></a><strong>AND</strong>&nbsp;(tab)</dt>
 <dd>
-Composes a simple SQL AND-expression. For complex expressions, write them explicitly. There is no OR-expression equivalent function (I don't know how to express it conveniently in Lua).
+Composes simple (almost trivial) SQL AND-expressions. There is no "magic" in this funcion, except that it 'quotes' the values. Hence, for expressions which have any operator other than '=', you should write them explicitly. There is no OR-expression equivalent function (I don't know how to express it conveniently in Lua).
 
 
 <h3>Parameters</h3>
@@ -289,6 +286,35 @@ Builds a string with an INSERT command.
 
 <h3>Return value:</h3>
 String with INSERT command. 
+
+
+
+</dd>
+
+
+
+
+<dt><a name="isinteger"></a><strong>isinteger</strong>&nbsp;(id)</dt>
+<dd>
+Checks if the argument is an integer. Use this function to check whether a value can be used as a database integer key.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  id: String with the key to check.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+Boolean or Number (any number can be considered as true) or nil. 
 
 
 

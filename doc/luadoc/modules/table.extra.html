@@ -46,10 +46,6 @@
 		<a href="../modules/dado.sql.html">dado.sql</a>
 	</li>
 
-	<li>
-		<a href="../modules/string.extra.html">string.extra</a>
-	</li>
-
 	<li><strong>table.extra</strong></li>
 	
 </ul>
@@ -74,10 +70,6 @@
 	</li>
 
 	<li>
-		<a href="../files/string/extra.html">string/extra.lua</a>
-	</li>
-
-	<li>
 		<a href="../files/table/extra.html">table/extra.lua</a>
 	</li>
 
@@ -98,7 +90,7 @@
 
 
 
-<p><small><b>Release:</b> $Id: extra.lua,v 1.1 2009-10-01 13:48:31 tomas Exp $ </small></p>
+<p><small><b>Release:</b> $Id: extra.lua,v 1.6 2011-03-25 21:43:19 tomas Exp $ </small></p>
 
 
 
@@ -106,28 +98,13 @@
 <table class="function_list">
 
 	<tr>
-	<td class="name" nowrap><a href="#arraytorecord">arraytorecord</a>&nbsp;(tab, dest)</td>
-	<td class="summary">Obtains a record from the elements of an array.</td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#copyto">copyto</a>&nbsp;(tab, dest)</td>
-	<td class="summary">Copies values from one table to another (or a new one).</td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#cycle">cycle</a>&nbsp;(tab, n)</td>
-	<td class="summary">Cyclic iterator over the arguments.</td>
-	</tr>
-
-	<tr>
 	<td class="name" nowrap><a href="#fullconcat">fullconcat</a>&nbsp;(tab, kvsep, pairssep, kfilter, vfilter)</td>
 	<td class="summary">Builds a list of pairs field=value, separated by commas.</td>
 	</tr>
 
 	<tr>
-	<td class="name" nowrap><a href="#invert">invert</a>&nbsp;(tab)</td>
-	<td class="summary">Inverts the array part of a given table.</td>
+	<td class="name" nowrap><a href="#pfullconcat">pfullconcat</a>&nbsp;(tab, kvsep, pairssep, kfilter, vfilter)</td>
+	<td class="summary">Produces the same result as fullconcat, but it checks the arguments' types.</td>
 	</tr>
 
 	<tr>
@@ -149,105 +126,6 @@
 
 <h2><a name="functions"></a>Functions</h2>
 <dl class="function">
-
-
-
-<dt><a name="arraytorecord"></a><strong>arraytorecord</strong>&nbsp;(tab, dest)</dt>
-<dd>
-Obtains a record from the elements of an array.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  tab: Table representing the array.
-	</li>
-	
-	<li>
-	  dest: Table to receive the result (optional).
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-Table representing a record. 
-
-
-
-</dd>
-
-
-
-
-<dt><a name="copyto"></a><strong>copyto</strong>&nbsp;(tab, dest)</dt>
-<dd>
-Copies values from one table to another (or a new one). The values could overwrite pre-existing ones.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  tab: Table with the values.
-	</li>
-	
-	<li>
-	  dest: Table where to store the values (default = {}).
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-Table with the results (a new table, if none provided). 
-
-
-
-</dd>
-
-
-
-
-<dt><a name="cycle"></a><strong>cycle</strong>&nbsp;(tab, n)</dt>
-<dd>
-Cyclic iterator over the arguments. When reaching the end, it starts again over and over.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  tab: Table of elements to be traversed.
-	</li>
-	
-	<li>
-	  n: Number of arguments of tab (default = #tab).
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-Function which return the next element.
-
-
-
-</dd>
-
 
 
 
@@ -296,16 +174,32 @@ String with field=value pairs separated by ','.
 
 
 
-<dt><a name="invert"></a><strong>invert</strong>&nbsp;(tab)</dt>
+<dt><a name="pfullconcat"></a><strong>pfullconcat</strong>&nbsp;(tab, kvsep, pairssep, kfilter, vfilter)</dt>
 <dd>
-Inverts the array part of a given table.
+Produces the same result as fullconcat, but it checks the arguments' types.
 
 
 <h3>Parameters</h3>
 <ul>
 	
 	<li>
-	  tab: Table to be inverted. 
+	  tab: Table of field=value pairs.
+	</li>
+	
+	<li>
+	  kvsep: String with key-value separator (default = '=').
+	</li>
+	
+	<li>
+	  pairssep: String with pairs separator (default = ',').
+	</li>
+	
+	<li>
+	  kfilter: Function to filter the keys (optional).
+	</li>
+	
+	<li>
+	  vfilter: Function to filter the values (optional).
 	</li>
 	
 </ul>
@@ -315,7 +209,19 @@ Inverts the array part of a given table.
 
 
 
+<h3>Return value:</h3>
+String with field=value pairs separated by ','. 
 
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="../modules/table.extra.html#fullconcat">
+		fullconcat
+	</a>
+	
+</ul>
 
 </dd>
 
@@ -324,7 +230,7 @@ Inverts the array part of a given table.
 
 <dt><a name="twostr"></a><strong>twostr</strong>&nbsp;(tab, ksep, vsep, kfilter, vfilter)</dt>
 <dd>
-Builds two lists, of keys and of values. The values are written between "'", except the constant sql.NULL.
+Builds two lists, of keys and of values.
 
 
 <h3>Parameters</h3>

@@ -1,20 +1,20 @@
 ---------------------------------------------------------------------
 -- Compose SQL statements.
 --
--- @release $Id: sql.lua,v 1.9 2010-06-09 21:09:18 tomas Exp $
+-- @release $Id: sql.lua,v 1.13 2011-06-06 17:10:18 tomas Exp $
 ---------------------------------------------------------------------
 
--- Stores all names inherited in locals
 local string = require"string"
 local gsub, strfind, strformat = string.gsub, string.find, string.format
 local table  = require"table.extra"
 local tabfullconcat, tabtwostr = table.fullconcat, table.twostr
+local tonumber, type = tonumber, type
 
 module"dado.sql"
 
 _COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
 _DESCRIPTION = "SQL is a collection of functions to create SQL statements"
-_VERSION = "Dado SQL 1.2.0"
+_VERSION = "Dado SQL 1.4.0"
 
 ---------------------------------------------------------------------
 -- Quote a value to be included in an SQL statement.
@@ -28,7 +28,7 @@ _VERSION = "Dado SQL 1.2.0"
 function quote (s, quote, sub)
     quote = quote or "'"
 	sub = sub or "\\"
-    if strfind (s, "^%(.*%)$") then
+    if strfind (s, "^(%b())$") then
         return s
     else
         return quote..escape (escape (s, sub, sub), quote, sub)..quote
@@ -52,8 +52,11 @@ function escape (s, char, sub)
 end
 
 ---------------------------------------------------------------------
--- Composes a simple SQL AND-expression.
--- For complex expressions, write them explicitly.
+-- Composes simple (almost trivial) SQL AND-expressions.
+-- There is no "magic" in this funcion, except that it 'quotes' the
+--	values.
+-- Hence, for expressions which have any operator other than '=',
+--	you should write them explicitly.
 -- There is no OR-expression equivalent function (I don't know how to
 --	express it conveniently in Lua).
 -- @param tab Table with key-value pairs representing equalities.
@@ -61,6 +64,22 @@ end
 ---------------------------------------------------------------------
 function AND (tab)
 	return tabfullconcat (tab, "=", " AND ", nil, quote)
+end
+
+---------------------------------------------------------------------
+-- Checks if the argument is an integer.
+-- Use this function to check whether a value can be used as a
+--	database integer key.
+-- @param id String with the key to check.
+-- @return Boolean or Number (any number can be considered as true) or nil.
+---------------------------------------------------------------------
+function isinteger (id)
+	local tid = type(id)
+	if tid == "string" then
+		return (not id:match"%a") and (tonumber(id) ~= nil)
+	else
+		return tid == "number"
+	end
 end
 
 ---------------------------------------------------------------------
