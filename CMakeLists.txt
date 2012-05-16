@@ -6,7 +6,8 @@
 
 project ( dado NONE )
 cmake_minimum_required ( VERSION 2.6 )
-include ( dist.cmake )
+include ( cmake/dist.cmake )
+include ( lua )
 
 install_lua_module ( dado         src/dado.lua )
 install_lua_module ( dado.object  src/dado/object.lua )
