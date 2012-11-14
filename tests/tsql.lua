@@ -1,10 +1,11 @@
 #!/usr/local/bin/lua
 
-local sql = require"dado.sql"
+local sql = require"src.dado.sql"
 
--- assert
+-- escape
 assert (sql.escape([[a'b]], "'") == [[a\'b]])
-assert (sql.escape([[a'b]], "'") == [[a\'b]])
+assert (sql.escape([[a'b]], "'", "''") == [[a''b]])
+assert (sql.escape([[a"b]], '"', '&quot;') == [[a&quot;b]])
 io.write"."
 
 -- quote
@@ -13,6 +14,7 @@ assert (sql.quote([[a\'b]]) == [['a\\\'b']])
 assert (sql.quote([[\'b\']]) == [['\\\'b\\\'']])
 assert (sql.quote([[()\'b\'()]]) == [['()\\\'b\\\'()']])
 assert (sql.quote([[(NULL)]]) == [[(NULL)]])
+assert (sql.quote(1) == 1)
 io.write"."
 
 -- select
@@ -23,16 +25,16 @@ assert (sql.select("a", "t", "w", "e") == "select a from t where w e")
 io.write"."
 
 -- insert
-assert (sql.insert("t", { a = 1 }) == "insert into t (a) values ('1')")
+assert (sql.insert("t", { a = 1 }) == "insert into t (a) values (1)")
 local stmt = sql.insert("t", { a = 1, b = "qw" })
-assert (stmt == "insert into t (a,b) values ('1','qw')" or
-        stmt == "insert into t (b,a) values ('qw','1')")
+assert (stmt == "insert into t (a,b) values (1,'qw')" or
+        stmt == "insert into t (b,a) values ('qw',1)")
 io.write"."
 
 -- update
-assert (sql.update("t", { a = 1 }) == "update t set a='1'")
+assert (sql.update("t", { a = 1 }) == "update t set a=1")
 local stmt = sql.update("t", { a = 1, b = "qw" })
-assert (stmt == "update t set a='1',b='qw'")
+assert (stmt == "update t set a=1,b='qw'")
 io.write"."
 
 -- delete
@@ -41,7 +43,7 @@ assert (sql.delete("t", "a=1") == "delete from t where a=1")
 io.write"."
 
 -- simple AND expression
-assert (sql.AND { a = 1, b = 2 } == "a='1' AND b='2'")
+assert (sql.AND { a = 1, b = 2 } == "a=1 AND b=2")
 local sub = sql.subselect("id", "usuario", "nome ilike "..sql.quote"tomas%")
 assert (sql.AND { id = sub } == [[id=(select id from usuario where nome ilike 'tomas%')]], sql.AND { id = sub })
 io.write"."

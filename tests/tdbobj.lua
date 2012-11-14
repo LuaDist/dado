@@ -56,7 +56,7 @@ assert (rawget (p, "nome") == nil)
 assert (rawget (p, "id") == nil)
 assert (p.nome == "Beltrano")
 assert (rawget (p, "nome") == "Beltrano")
-assert (rawget (p, "id") == "2")
+assert (tostring (rawget (p, "id")) == "2")
 assert (p:signature() == "Beltrano (beltrano@cafundo.com)")
 io.write"."
 
