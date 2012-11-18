@@ -7,7 +7,9 @@
 --	table_name = string with the name of the database table
 --	key_name = string with the name of the key attribute/field
 --
--- @release $Id: object.lua,v 1.11 2011-06-06 17:10:18 tomas Exp $
+-- @class module
+-- @name dado.object
+-- @release $Id: object.lua,v 1.16 2012/11/14 18:09:49 tomas Exp $
 ---------------------------------------------------------------------------
 
 local ipairs, pairs, rawget, rawset, setmetatable, type = ipairs, pairs, rawget, rawset, setmetatable, type
@@ -15,12 +17,6 @@ local sql = require"dado.sql"
 local sqlquote, sqlselect = sql.quote, sql.select
 local strformat = require"string".format
 local concat = require"table".concat
-
-module"dado.object"
-
-_COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
-_DESCRIPTION = "Database Object is a library to create classes and objects associated with database tables and rows"
-_VERSION = "Dado Object 1.4.0"
 
 --
 -- Tries to create an expression with the given table of keys.
@@ -43,7 +39,7 @@ end
 -- Creates an SQL condition which identifies the record.
 -- @return String with the SQL text.
 --
-function db_identification (self)
+local function db_identification (self)
 	local cond = build_expression (self, self.key_name)
 	if cond then
 		return cond
@@ -79,7 +75,7 @@ end
 local function db_load (self, attr)
 	-- Loads all attributes from the database
 	local stmt = sqlselect (db_fields_list(self), self.table_name,
-		db_identification (self))
+		self:db_identification ())
 	local cur = self.__dado:assertexec (stmt)
 	self.loaded = cur:fetch (self, "a")
 	cur:close ()
@@ -97,7 +93,7 @@ local mt = {
 		if attr ~= "db_fields" and self.db_fields then
 			local load = self.db_fields[attr]
 			if type(load) == "function" then
-				res = load(self, attr) -- Special way to load value
+				res = load(self, attr) -- Customized way to load value
 			elseif load == true then
 				res = db_load (self, attr) -- Default way to load value
 			end
@@ -114,12 +110,14 @@ local mt = {
 
 ---------------------------------------------------------------------------
 -- Creates a new object.
+-- @class function
+-- @name new
 -- @param class Table representing the class of the object.
 -- @param dado Dado connection.
 -- @param o Table representing the object (optional).
 -- @return Table representing the object.
 ---------------------------------------------------------------------------
-function new (class, dado, o)
+local function new (class, dado, o)
 	o = o or {}
 	o.__class = class
 	o.__dado = dado
@@ -129,9 +127,11 @@ end
 
 ---------------------------------------------------------------------------
 -- Creates a table with the raw data of the object.
+-- @class function
+-- @name rawdata
 -- @return Table with field=value pairs.
 ---------------------------------------------------------------------------
-function rawdata (self)
+local function rawdata (self)
 	local r = {}
 	for field, f in pairs (self.db_fields) do
 		r[field] = rawget (self, field)
@@ -141,18 +141,22 @@ end
 
 ---------------------------------------------------------------------------
 -- Inserts a new record in the database.
+-- @class function
+-- @name insert
 -- @return Boolean indicating the success of the operation.
 ---------------------------------------------------------------------------
-function insert (self)
+local function insert (self)
 	return self.__dado:insert (self.table_name, self:rawdata ()) == 1
 end
 
 ---------------------------------------------------------------------------
 -- Updates the data of the object in the corresponding database record.
+-- @class function
+-- @name update
 -- @return Boolean indicating the success of the operation.
 ---------------------------------------------------------------------------
-function update (self)
-	return self.__dado:update (self.table_name, self:rawdata (), db_identification (self)) == 1
+local function update (self)
+	return self.__dado:update (self.table_name, self:rawdata (), self:db_identification ()) == 1
 end
 
 ---------------------------------------------------------------------------
@@ -160,8 +164,10 @@ end
 -- This function decides when to perform an update or an insert according
 -- to the value of the loaded attribute which indicates if the data was
 -- already loaded from the database.
+-- @class function
+-- @name save
 ---------------------------------------------------------------------------
-function save (self)
+local function save (self)
 	if self.loaded then
 		return self:update ()
 	else
@@ -171,10 +177,27 @@ end
 
 ---------------------------------------------------------------------------
 -- Creates a new class.
+-- @class function
+-- @name class
 -- @param c Table with the mandatory fields.
 -- @return Table representing the class.
 ---------------------------------------------------------------------------
-function class (self, c)
+local function class (self, c)
 	setmetatable (c, { __index = self })
 	return c
 end
+
+--------------------------------------------------------------------------------
+return {
+	_COPYRIGHT = "Copyright (C) 2010-2012 PUC-Rio",
+	_DESCRIPTION = "Database Object is a library to create classes and objects associated with database tables and rows",
+	_VERSION = "Dado Object 1.4.2",
+
+	db_identification = db_identification,
+	new = new,
+	rawdata = rawdata,
+	insert = insert,
+	update = update,
+	save = save,
+	class = class,
+}

@@ -3,15 +3,14 @@
 --
 -- @class module
 -- @name table.extra
--- @release $Id: extra.lua,v 1.6 2011-03-25 21:43:19 tomas Exp $
+-- @release $Id: extra.lua,v 1.10 2012/11/14 18:09:51 tomas Exp $
 ---------------------------------------------------------------------
 
 local assert, pairs, type = assert, pairs, type
 
-local table   = require"table"
+local table = require"table"
+local tconcat, tsort = table.concat, table.sort
 local strformat = require"string".format
-
-module"table.extra"
 
 ---------------------------------------------------------------------
 -- Builds a list of pairs field=value, separated by commas.
@@ -19,6 +18,8 @@ module"table.extra"
 -- The ',' could also be changed by the pairssep argument.
 -- Both the field and the value could be filtered by the kfilter and
 --	vfilter respectivelly.
+-- @class function
+-- @name fullconcat
 -- @param tab Table of field=value pairs.
 -- @param kvsep String with key-value separator (default = '=').
 -- @param pairssep String with pairs separator (default = ',').
@@ -26,7 +27,7 @@ module"table.extra"
 -- @param vfilter Function to filter the values (optional).
 -- @return String with field=value pairs separated by ','.
 ---------------------------------------------------------------------
-function fullconcat (tab, kvsep, pairssep, kfilter, vfilter)
+local function fullconcat (tab, kvsep, pairssep, kfilter, vfilter)
 	pairssep = pairssep or ','
 	local formatstring = "%s"..(kvsep or '=').."%s"
 	local l = {}
@@ -37,14 +38,16 @@ function fullconcat (tab, kvsep, pairssep, kfilter, vfilter)
 			kfilter and kfilter(key) or key,
 			vfilter and vfilter(val) or val)
 	end
-	table.sort (l)
-	return table.concat (l, pairssep)
+	tsort (l)
+	return tconcat (l, pairssep)
 end
 
 ---------------------------------------------------------------------
 -- Produces the same result as fullconcat, but it checks the arguments'
 --	types.
--- @see fullconcat.
+-- @name pfullconcat
+-- @class function
+-- @see fullconcat
 -- @param tab Table of field=value pairs.
 -- @param kvsep String with key-value separator (default = '=').
 -- @param pairssep String with pairs separator (default = ',').
@@ -52,7 +55,7 @@ end
 -- @param vfilter Function to filter the values (optional).
 -- @return String with field=value pairs separated by ','.
 ---------------------------------------------------------------------
-function pfullconcat (tab, kvsep, pairssep, kfilter, vfilter)
+local function pfullconcat (tab, kvsep, pairssep, kfilter, vfilter)
 	local tt = type(tab)
 	assert (tt == "table",
 		"Bad argument #1 to 'pfullconcat' (table expected, got "..tt..")")
@@ -84,8 +87,8 @@ function pfullconcat (tab, kvsep, pairssep, kfilter, vfilter)
 			kfilter and kfilter(key) or key,
 			vfilter and vfilter(val) or val)
 	end
-	table.sort (l)
-	return table.concat (l, pairssep)
+	tsort (l)
+	return tconcat (l, pairssep)
 end
 
 ---------------------------------------------------------------------
@@ -98,7 +101,7 @@ end
 -- @return Two strings; the first with a list of the fields and the
 --	second with a list of the values.
 ---------------------------------------------------------------------
-function twostr (tab, ksep, vsep, kfilter, vfilter)
+local function twostr (tab, ksep, vsep, kfilter, vfilter)
 	ksep  = ksep or ','
 	vsep  = vsep or ','
 	local k, v = {}, {}
@@ -108,5 +111,16 @@ function twostr (tab, ksep, vsep, kfilter, vfilter)
 		k[i] = kfilter and kfilter(key) or key
 		v[i] = vfilter and vfilter(val) or val
 	end
-	return table.concat (k, ksep), table.concat (v, vsep)
+	return tconcat (k, ksep), tconcat (v, vsep)
 end
+
+--------------------------------------------------------------------------------
+return {
+	_COPYRIGHT = "Copyright (C) 2012 PUC-Rio",
+	_DESCRIPTION = "Table Extra contains some functions used to manipulate tables by other Dado modules",
+	_VERSION = "Table Extra 1.4.2",
+
+	fullconcat = fullconcat,
+	pfullconcat = pfullconcat,
+	twostr = twostr,
+}

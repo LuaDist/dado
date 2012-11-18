@@ -13,7 +13,7 @@ assert (string.find (tostring(db.conn), "connection"))
 local mt = getmetatable(db)
 assert (type(mt) == "table")
 assert (type(mt.__index) == "table")
-assert (mt.__index == dado)
+assert (mt.__index.select)
 io.write"."
 
 -- Teste de encerramento e reabertura da conexao
@@ -94,6 +94,7 @@ assert (log_table[1] == "select * from tabela", ">>"..tostring(log_table[1]))
 io.write"."
 
 -- Wrapping an already open connection
+local luasql = require("luasql."..driver)
 driver = driver or "postgres"
 local env = luasql[driver]()
 local conn = env:connect(dbname, user, pass)
