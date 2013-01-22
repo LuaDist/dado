@@ -1,11 +1,13 @@
 #!/usr/local/bin/lua
 
-local sql = require"src.dado.sql"
+local sql = require"dado.sql"
 
 -- escape
 assert (sql.escape([[a'b]], "'") == [[a\'b]])
 assert (sql.escape([[a'b]], "'", "''") == [[a''b]])
 assert (sql.escape([[a"b]], '"', '&quot;') == [[a&quot;b]])
+local com_zero = "'abc\0def'"
+assert (sql.escape(com_zero) == "'abcdef'", "Cannot escape \\0")
 io.write"."
 
 -- quote
@@ -15,6 +17,9 @@ assert (sql.quote([[\'b\']]) == [['\\\'b\\\'']])
 assert (sql.quote([[()\'b\'()]]) == [['()\\\'b\\\'()']])
 assert (sql.quote([[(NULL)]]) == [[(NULL)]])
 assert (sql.quote(1) == 1)
+assert (sql.quote("a'b") == [['a\'b']])
+assert (sql.quote("a'b", "'", "''") == [['a''b']])
+assert (sql.quote(com_zero) == [['\'abcdef\'']], "Cannot quote '\\0'")
 io.write"."
 
 -- select
