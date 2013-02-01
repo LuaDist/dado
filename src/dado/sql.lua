@@ -3,7 +3,7 @@
 --
 -- @class module
 -- @name dado.sql
--- @release $Id: sql.lua,v 1.20 2012/11/14 18:09:49 tomas Exp $
+-- @release $Id: sql.lua,v 1.21 2013/01/23 20:19:34 tomas Exp $
 ---------------------------------------------------------------------
 
 local string = require"string"
@@ -14,6 +14,7 @@ local tonumber, type = tonumber, type
 
 ---------------------------------------------------------------------
 -- Escape a character or a character class in a string.
+-- It also removes character with codes < 32.
 -- @class function
 -- @name escape
 -- @param s String to be processed.
@@ -26,6 +27,7 @@ local function escape (s, char, sub)
 	if not s then return end
 	char = char or "%s"
 	sub = sub or "\\%1"
+	s = gsub (s, "[%z\1\2\3\4\5\6\7\8\11\12\14\15\16\17\18\19\20\21\22\23\24\25\26\27\28\29\30\31]", "")
 	s = gsub (s, "("..char..")", sub)
 	return s
 end
