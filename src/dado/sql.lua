@@ -3,7 +3,7 @@
 --
 -- @class module
 -- @name dado.sql
--- @release $Id: sql.lua,v 1.21 2013/01/23 20:19:34 tomas Exp $
+-- @release $Id: sql.lua,v 1.22 2013/02/08 01:53:11 tomas Exp $
 ---------------------------------------------------------------------
 
 local string = require"string"
@@ -129,13 +129,18 @@ end
 -- Builds a string with an INSERT command.
 -- @class function
 -- @name insert
--- @param tabname String with table name.
--- @param contents Table of elements to be inserted.
+-- @param tabname String with table name or with the SQL text that
+--	follows the "insert into" prefix.
+-- @param contents Table of elements to be inserted (optional).
 -- @return String with INSERT command.
 ---------------------------------------------------------------------
 local function insert (tabname, contents)
-	return strformat ("insert into %s (%s) values (%s)",
-		tabname, tabtwostr (contents, ',', ',', nil, quote))
+	if contents then
+		return strformat ("insert into %s (%s) values (%s)",
+			tabname, tabtwostr (contents, ',', ',', nil, quote))
+	else
+		return strformat ("insert into %s", tabname)
+	end
 end
 
 ---------------------------------------------------------------------
