@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><a href="../modules/dado.html">dado</a></li>
+  <li><a href="../modules/dado.object.html">dado.object</a></li>
+  <li><strong>dado.sql</strong></li>
+  <li><a href="../modules/table.extra.html">table.extra</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>dado.sql</code></h1>
+
+<p>Compose SQL statements.</p>
+<p></p>
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#escape">escape&nbsp;(s, char, sub)</a></td>
+	<td class="summary">Escape a character or a character class in a string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#quote">quote&nbsp;(s, quote, sub)</a></td>
+	<td class="summary">Quote a value to be included in an SQL statement.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#AND">AND&nbsp;(tab)</a></td>
+	<td class="summary">Composes simple (almost trivial) SQL AND-expressions.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#isinteger">isinteger&nbsp;(id)</a></td>
+	<td class="summary">Checks if the argument is an integer.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#select">select&nbsp;(columns, tabname, cond, extra)</a></td>
+	<td class="summary">Builds a string with a SELECT command.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#subselect">subselect&nbsp;(columns, tabname, cond, extra)</a></td>
+	<td class="summary">Builds a string with a SELECT command to be inserted into another
+ SQL query.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#insert">insert&nbsp;(tabname, contents)</a></td>
+	<td class="summary">Builds a string with an INSERT command.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#update">update&nbsp;(tabname, contents, cond)</a></td>
+	<td class="summary">Builds a string with an UPDATE command.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#delete">delete&nbsp;(tabname, cond)</a></td>
+	<td class="summary">Builds a string with a DELETE command.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+    
+    <dl class="function">
+    <dt>
+    <a name = "escape"></a>
+    <strong>escape&nbsp;(s, char, sub)</strong>
+    </dt>
+    <dd>
+    Escape a character or a character class in a string. 
+ It also removes character with codes < 32.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>s</em></code>:  String to be processed.</li>
+       <li><code><em>char</em></code>:  String with gsub's pattern to be escaped inside
+  the string (default = "%s").</li>
+       <li><code><em>sub</em></code>:  String with escaped character (default = "\\%1").</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        String or nil if no string was given.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "quote"></a>
+    <strong>quote&nbsp;(s, quote, sub)</strong>
+    </dt>
+    <dd>
+    Quote a value to be included in an SQL statement. 
+ The exception is when the string is surrounded by "()";
+ in this case it won't be quoted.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>s</em></code>:  String or number.</li>
+       <li><code><em>quote</em></code>:  String with quote character (default = "'").</li>
+       <li><code><em>sub</em></code>:  String with escape character (default = "\\'").</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        String with prepared value.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "AND"></a>
+    <strong>AND&nbsp;(tab)</strong>
+    </dt>
+    <dd>
+    Composes simple (almost trivial) SQL AND-expressions. 
+ There is no "magic" in this funcion, except that it 'quotes' the
+	values.
+ Hence, for expressions which have any operator other than '=',
+	you should write them explicitly.
+ There is no OR-expression equivalent function (I don't know how to
+	express it conveniently in Lua).
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>tab</em></code>:  Table with key-value pairs representing equalities.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        String with the resulting expression.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "isinteger"></a>
+    <strong>isinteger&nbsp;(id)</strong>
+    </dt>
+    <dd>
+    Checks if the argument is an integer. 
+ Use this function to check whether a value can be used as a
+	database integer key.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>id</em></code>:  String with the key to check.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        Boolean or Number (any number can be considered as true) or nil.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "select"></a>
+    <strong>select&nbsp;(columns, tabname, cond, extra)</strong>
+    </dt>
+    <dd>
+    Builds a string with a SELECT command. 
+ The existing arguments will be concatenated together to form the
+ SQL statement.
+ The string "select " is added as a prefix.
+ If the tabname is given, the string " from " is added as a prefix.
+ If the cond is given, the string " where " is added as a prefix.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>columns</em></code>:  String with columns list.</li>
+       <li><code><em>tabname</em></code>:  String with table name (optional).</li>
+       <li><code><em>cond</em></code>:  String with where-clause (optional).</li>
+       <li><code><em>extra</em></code>:  String with extra SQL text (optional).</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        String with SELECT command.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "subselect"></a>
+    <strong>subselect&nbsp;(columns, tabname, cond, extra)</strong>
+    </dt>
+    <dd>
+    Builds a string with a SELECT command to be inserted into another
+ SQL query. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>columns</em></code>:  String with columns list.</li>
+       <li><code><em>tabname</em></code>:  String with table name.</li>
+       <li><code><em>cond</em></code>:  String with where-clause (and following SQL text).</li>
+       <li><code><em>extra</em></code>:  String with extra SQL text.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        String with SELECT command.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "insert"></a>
+    <strong>insert&nbsp;(tabname, contents)</strong>
+    </dt>
+    <dd>
+    Builds a string with an INSERT command. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>tabname</em></code>:  String with table name or with the SQL text that
+	follows the "insert into" prefix.</li>
+       <li><code><em>contents</em></code>:  Table of elements to be inserted (optional).</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        String with INSERT command.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "update"></a>
+    <strong>update&nbsp;(tabname, contents, cond)</strong>
+    </dt>
+    <dd>
+    Builds a string with an UPDATE command. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>tabname</em></code>:  String with table name.</li>
+       <li><code><em>contents</em></code>:  Table of elements to be updated.</li>
+       <li><code><em>cond</em></code>:  String with where-clause (and following SQL text).</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        String with UPDATE command.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "delete"></a>
+    <strong>delete&nbsp;(tabname, cond)</strong>
+    </dt>
+    <dd>
+    Builds a string with a DELETE command. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>tabname</em></code>:  String with table name.</li>
+       <li><code><em>cond</em></code>:  String with where-clause (and following SQL text).</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        String with DELETE command.
+    </ol>
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.2</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
