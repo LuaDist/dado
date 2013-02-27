@@ -1,0 +1,52 @@
+type = "x86_64"
+arch = "Ubuntu"
+author = "Tomás Guisasola, Eduardo Quintão"
+depends = {
+[[lua ~> 5.1]],
+}
+
+desc = "Dado - Database Facilities for LuaSQL."
+version = "1.5.0"
+maintainer = "Peter Kapec"
+files = {
+Runtime = {
+[[lib/lua/dado.lua]],
+[[lib/lua/dado/object.lua]],
+[[lib/lua/dado/sql.lua]],
+[[lib/lua/table/extra.lua]],
+}
+,
+Documentation = {
+[[share/dado/doc//luadoc/modules/dado.html]],
+[[share/dado/doc//luadoc/modules/dado.sql.html]],
+[[share/dado/doc//luadoc/modules/table.extra.html]],
+[[share/dado/doc//luadoc/modules/dado.object.html]],
+[[share/dado/doc//luadoc/ldoc.css]],
+[[share/dado/doc//luadoc/index.html]],
+[[share/dado/doc//examples.html]],
+[[share/dado/doc//br/examples.html]],
+[[share/dado/doc//br/license.html]],
+[[share/dado/doc//br/dado.png]],
+[[share/dado/doc//br/index.html]],
+[[share/dado/doc//license.html]],
+[[share/dado/doc//dado.png]],
+[[share/dado/doc//index.html]],
+}
+,
+Data = {
+[[share/dado/README]],
+}
+,
+Test = {
+[[share/dado/test//ttable.extra.lua]],
+[[share/dado/test//tsql.lua]],
+[[share/dado/test//tdbobj.lua]],
+[[share/dado/test//overall.lua]],
+[[share/dado/test//tdado.lua]],
+}
+,
+}
+
+license = "MIT"
+name = "dado"
+url = "http://www.ccpa.puc-rio.br/software/dado/"

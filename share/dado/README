@@ -1,0 +1,45 @@
+Contents
+========
+
+This package contains:
+
+src/table/extra.lua   Extension to table package
+
+src/dado.lua          Database facilities library
+src/dado/object.lua   Object abstraction
+src/dado/sql.lua      SQL statements composing library
+
+tests/overall.lua        Runs all tests
+tests/tdado.lua          Database facilities tests
+tests/tdbobj.lua         Object abstraction tests
+tests/tsql.lua           SQL composing tests
+tests/ttable.extra.lua   Table extension tests
+
+Makefile          Utility generate documentation and distribution archive
+
+Libraries descriptions
+========= ============
+
+table/extra.lua
+
+Some table manipulation functions used by the other libraries.
+
+dado/sql.lua
+
+The SQL statements composing library offers a collection of functions which
+helps the creation of the most commonly used database operations.
+
+dado.lua
+
+Dado is a set of facilities implemented over LuaSQL connection objects.
+It provides an iterator for selects, connection cache,
+better database error messages and a uniform use for both insert and update.
+
+dado/object.lua
+
+The Object library offers basic functionality to create objects
+associated with database rows.  These objects use a mechanism to retrieve
+attributes automatically from the database.  The library also offers a class
+constructor function to ease the creation of classes of database objects.
+
+$Id: README,v 1.7 2011-03-25 21:43:19 tomas Exp $
